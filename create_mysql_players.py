@@ -38,11 +38,12 @@ def create_games_tbl(cur):
   ########################
   # Create customers table
   ########################
-  sql = """CREATE TABLE players
+  sql = """CREATE TABLE games
   (
     id            int       NOT NULL AUTO_INCREMENT,
     game_id       int       NOT NULL ,
     player_id     int       NOT NULL ,
+    year          int       NULL ,
     rush_yds      int       NULL ,
     rec_yds       int       NULL ,
     pass_yds      int       NULL ,
@@ -55,7 +56,7 @@ def create_games_tbl(cur):
     fg40          int       NULL ,
     fg50          int       NULL ,
     pat           int       NULL ,
-    fuml          int       NULL ,
+    fum           int       NULL ,
     intercepts    int       NULL ,
     news          char(255) NULL ,
     PRIMARY KEY (id)
