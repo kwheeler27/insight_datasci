@@ -1,4 +1,29 @@
 {% extends "base.html" %}
-{% block content %}
-<h1>Hello, {{user.nickname}}!</h1>
+{% block nav %}
+<div class="navbar-collapse collapse navbar-right">
+  <ul class="nav navbar-nav">
+    <li class="active"><a href="/home">Home</a></li>
+    <li><a href="/slides">Slides</a></li>
+    <li><a href="/algorithm">Algorithm</a></li>
+    <li><a href="https://github.com/kwheeler27/insight_datasci">Code</a></li>
+  </ul>
+</div><!--/.nav-collapse -->
 {% endblock %}
+{% block content %}
+
+<h1>Hello, {{user.nickname}}!</h1>
+<h1>Sign In</h1>
+<form action="" method="post" name="login">
+    {{form.hidden_tag()}}
+    <p>
+        Please enter your OpenID:<br>
+        {{form.openid(size=80)}}<br>
+        {% for error in form.errors.openid %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>{{form.remember_me}} Remember Me</p>
+    <p><input type="submit" value="Sign In"></p>
+</form>
+{% endblock %}
+

@@ -1,12 +1,16 @@
 from app import app
-from flask import render_template
+from flask import render_template, flash, redirect
+from forms import RosterForm
 
-
-@app.route('/')
-@app.route('/home')
+@app.route('/', methods = ['GET', 'POST'])
+@app.route('/home', methods = ['GET', 'POST'])
 def index():
+    form = RosterForm()
     user = { 'nickname': 'Kevin' } # fake user
-    return render_template("home.html", title = 'Home', user = user)
+    if form.validate_on_submit():
+      flash('Login requested for OpenID="' + form.openid.data + '", remember_me=' + str(form.remember_me.data))
+      return redirect('/optimize')
+    return render_template("home.html", title = 'Home', user = user, form = form)
 
 @app.route('/algorithm')
 def algorithm():
