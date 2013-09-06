@@ -9,7 +9,7 @@ def index():
     return render_template("home.html", title = 'Home', user = user)
 
 @app.route('/algorithm')
-def slides():
+def algorithm():
     return render_template("algorithm.html")
         
 @app.route('/slides')
