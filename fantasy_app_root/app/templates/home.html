@@ -1,29 +1,41 @@
 {% extends "base.html" %}
 {% block nav %}
-<div class="navbar-collapse collapse navbar-right">
-  <ul class="nav navbar-nav">
+<div class="navbar-collapse collapse navbar-right bs-example">
+  <ul class="nav navbar-nav nav-pills">
     <li class="active"><a href="/home">Home</a></li>
     <li><a href="/slides">Slides</a></li>
     <li><a href="/algorithm">Algorithm</a></li>
-    <li><a href="https://github.com/kwheeler27/insight_datasci">Code</a></li>
+    <li><a href="/validation">Validation</a></li>
   </ul>
 </div><!--/.nav-collapse -->
 {% endblock %}
 {% block content %}
-
-<h1>Hello, {{user.nickname}}!</h1>
-<h1>Sign In</h1>
-<form action="" method="post" name="login">
+<center>
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-6">    
+    <h1>Heading1</h1>
+    <h2>Step 1:</h2>
+    <h3>Enter your roster:</h3>
+    <form action="" method="post" name="roster" role="form">
     {{form.hidden_tag()}}
-    <p>
-        Please enter your OpenID:<br>
-        {{form.openid(size=80)}}<br>
+      <p>
+        {% for entry in form %}<br>
+        <tr><td>{{entry(class_='form-control', placeholder=entry.label.text)}}</td></tr>    
+        {% endfor %}<br>    
         {% for error in form.errors.openid %}
         <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
-    </p>
-    <p>{{form.remember_me}} Remember Me</p>
-    <p><input type="submit" value="Sign In"></p>
-</form>
+      </p>
+      <p><input type="submit" value="Optimize" class="btn btn-primary"></p>
+    </form>    
+  </div>
+  
+  <div class="col-lg-6 col-md-6 col-sm-6">
+    <h1>Heading2</h1>
+    <h2>Step 2:</h2>
+    <h3>Select week:</h3>
+  </div>
+</div>
+</center>
 {% endblock %}
 

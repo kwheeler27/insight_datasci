@@ -6,11 +6,10 @@ from forms import RosterForm
 @app.route('/home', methods = ['GET', 'POST'])
 def index():
     form = RosterForm()
-    user = { 'nickname': 'Kevin' } # fake user
     if form.validate_on_submit():
-      flash('Login requested for OpenID="' + form.openid.data + '", remember_me=' + str(form.remember_me.data))
+      flash('Roster Flash')
       return redirect('/optimize')
-    return render_template("home.html", title = 'Home', user = user, form = form)
+    return render_template("home.html", title = 'Home', form = form)
 
 @app.route('/algorithm')
 def algorithm():
@@ -19,6 +18,10 @@ def algorithm():
 @app.route('/slides')
 def slides():
     return render_template("slides.html")
+    
+@app.route('/validation')
+def validation():
+    return render_template("validation.html")
     
 @app.route('/optimize', methods = ['POST'])
 def optimize():

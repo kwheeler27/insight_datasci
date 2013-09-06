@@ -4,14 +4,18 @@
 
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="/static/css/app.css" rel="stylesheet">
+    
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
+    <!-- Custom styles for this project -->
+    <link href="/static/css/sticky-footer.css" rel="stylesheet">
+    <link href="/static/css/app.css" rel="stylesheet">
+    
   </head>
   <body>
-    
+    <div id="wrap">
     <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -37,8 +41,11 @@
     {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
-    <footer>
+    </div>
+    <div id="footer">
+      <div class="container">
       <p>&copy; Insight Data Science 2013</p>
-    </footer>
+      </div>
+    </div>
   </body>
 </html>
