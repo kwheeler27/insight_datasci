@@ -3,6 +3,9 @@ import re
 import time
 import csv
 from bs4 import BeautifulSoup
+import numpy as np
+import pandas
+import string
 
 def is_stat_row(c):
   return (c == 'odd' or c == 'even')
@@ -37,6 +40,7 @@ def get_plyr_data(cols, cat):
   if plyr_id:
     data.append(plyr_id.group(1))
     data.append(plyr_id.group(2))
+    print plyr_id.group(2)
     
   if cat == 'passing':
     pass_yds = int(cols[2].text.encode('ascii', 'ignore'))
@@ -60,19 +64,80 @@ def get_plyr_data(cols, cat):
   elif cat == 'defensive':
     sacks = int(cols[3].text.encode('ascii', 'ignore'))
     def_tds = int(cols[7].text.encode('ascii', 'ignore'))
+    print "sacks: ", sacks
+    print "def tds: ", def_tds
     data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, sacks, def_tds, 0])
   elif cat == 'returns':
     def_tds = int(cols[5].text.encode('ascii', 'ignore'))
     data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, def_tds, 0])
   elif cat == 'kicking':
     kick_pts = int(cols[5].text.encode('ascii', 'ignore'))
+    print "kicking: ", kick_pts
     data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, kick_pts])
   return data
+
+def fantasy_pts(arr):
+  pts = 0
+  pts += float(arr[0]) / 25.0  #pass yds
+  pts += float(arr[1]) * 4     #pass tds
+  pts -= float(arr[2])         #pass ints
+  pts += float(arr[3]) / 10.0  #rush yds
+  pts += float(arr[4]) * 6     #rush tds
+  pts += float(arr[5]) / 10.0  #rec yds
+  pts += float(arr[6]) * 6     #rec tds
+  pts -= float(arr[7]) * 2     #'fum_lost'
+  pts += float(arr[8]) * 2     #'interceptions', 
+  pts += float(arr[9])         #'sacks'
+  pts += float(arr[10]) * 6     #'def_tds'
+  pts += float(arr[11])        #'kick_pts'
+  return pts
+
+def calc_scores(arr2d):
+  scores = [['game_id','plyr_id', 'name', 'score']]
+  for row in arr2d:
+    arr = [row[0], row[1], row[2]]
+    arr.append(fantasy_pts(row[3:]))
+    scores.append(arr)
+  plyr_pts = np.array(scores)
+  return plyr_pts
+
+def consolidate_scores(arr2d):
+  new_scores = []
+  col1 = arr2d[1:,0]
+  col2 = arr2d[1:,1]
+  col3 = arr2d[1:,2]
+  col4 = arr2d[1:,3]
+  new_arr2d = arr2d[1:,:]
+  col_temp = []
+  for i in xrange(col1.shape[0]):
+    col_temp.append(string.join(col1[i], col2[i]))
+  uni_col_temp = np.unique(col_temp)
+  
+  result = []
+  for i in xrange(uni_col_temp.shape[0]):
+    uni_id = uni_col_temp[i]
+    tot_pts = 0
+    elems = []
+    for j in xrange(col1.shape[0]):
+      game = col1[j]
+      plyr = col2[j]
+      name = col3[j]
+      test = string.join(game, plyr)
+      if test == uni_id:
+        if len(elems) == 0:
+          elems.append(game)
+          elems.append(plyr)
+          elems.append(name)
+        tot_pts += float(col4[j])
+    elems.append(tot_pts)
+    result.append(elems)
+  print np.array(result)
+  return []
   
 def main():
   '''
   wfile = open("game_stats.csv", "wb")
-  field_names = ['count', 'game_id','plyr_id', 'pass_yds', 'pass_tds', 'pass_ints', 'rush_yds', 'rush_tds', 'rec_yds', 'rec_tds', 'fum_lost', 'interceptions', 'sacks', 'def_tds', 'kick_pts']
+  field_names = ['game_id','plyr_id', 'name', 'pass_yds', 'pass_tds', 'pass_ints', 'rush_yds', 'rush_tds', 'rec_yds', 'rec_tds', 'fum_lost', 'interceptions', 'sacks', 'def_tds', 'kick_pts']
   writer = csv.writer(wfile)
   writer.writerow(field_names)
   '''
@@ -80,6 +145,7 @@ def main():
   #teams = ['buf/buffalo-bills', 'mia/miami-dolphins', 'ne/new-england-patriots', 'nyj/new-york-jets', 'den/denver-broncos', 'kc/kansas-city-chiefs', 'oak/oakland-raiders', 'sd/san-diego-chargers', 'bal/baltimore-ravens', 'cin/cincinnati-bengals', 'cle/cleveland-browns', 'pit/pittsburgh-steelers', 'hou/houston-texans', 'ind/indianapolis-colts', 'jac/jacksonville-jaguars', 'ten/tennessee-titans', 'dal/dallas-cowboys', 'nyg/new-york-giants', 'phi/philadelphia-eagles', 'wsh/washington-redskins', 'ari/arizona-cardinals', 'stl/st-louis-rams', 'sf/san-francisco-49ers', 'sea/seattle-seahawks', 'chi/chicago-bears', 'det/detroit-lions', 'gb/green-bay-packers', 'min/minnesota-vikings', 'atl/atlanta-falcons', 'car/carolina-panthers', 'no/new-orleans-saints', 'tb/tampa-bay-buccaneers'] 
   
   games = [330908014]
+  game_data = []
   for game in games:
     boxscore_url = "http://scores.espn.go.com/nfl/boxscore?gameId=%s" % (game)
     boxscore_res = requests.get(boxscore_url)
@@ -88,17 +154,20 @@ def main():
     for table in stat_tables:
       hdr = table.find('th').text.encode('ascii', 'ignore')
       stat_category = get_stat_category(hdr)
-      print 'stat_category: ', stat_category
       for row in table.find_all('tr', class_=is_stat_row):
         cols = row.find_all('td')
         plyr_data = get_plyr_data(cols, stat_category)
         if stat_category == 'NO MATCH' and len(plyr_data) != 0:
-          plyr_data.extend([0,0,0,0,0,0,0,0,0,0,0,0])
-        print 'plyr_data: ', plyr_data
+          plyr_data.extend([0,0,0,0,0,0,0,0,0,0,0,0])       
+        if len(plyr_data) != 0:
+          plyr_data.insert(0, game)
+          game_data.append(plyr_data)
+  game_stats = np.array(game_data)
+  fantasy_scores = calc_scores(game_stats)
+  consolidated_scores = consolidate_scores(fantasy_scores)
+     
         
-        
-        
-    '''
+  '''
     for row in table.find_all('tr', class_=is_team_row):
       cols = row.find_all('td')
       position = cols[0].text.encode('ascii','ignore')
