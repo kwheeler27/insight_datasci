@@ -1,12 +1,12 @@
 body { 
-  padding-top: 70px; 
+  padding-top: 90px; 
   margin-left: 15px;
   margin-right: 15px;
 }
 
 .navbar {
   background-color: white;
-  padding: 20px 0px;
+  padding: 10px 0px;
   border-bottom: 1px solid #777777;
   color: #0276FD;
 }
@@ -18,6 +18,11 @@ body {
 
 form {
   margin: 0px 15px;
+}
+
+.btn-primary{
+  margin: 250px 0px;
+  padding: 20px 50px;
 }
 
 

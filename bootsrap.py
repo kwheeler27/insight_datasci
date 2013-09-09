@@ -2,7 +2,7 @@ import requests
 
 
 def main():
-  url = 'http://getbootstrap.com/examples/sticky-footer/'
+  url = 'http://scores.espn.go.com/nfl/boxscore?gameId=330908014'
   r = requests.get(url)
   print r.content
   

@@ -11,31 +11,32 @@
 {% endblock %}
 {% block content %}
 <center>
+<form action="{{ url_for('optimize') }}" method="post" name="roster" role="form">
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6">    
-    <h1>Heading1</h1>
     <h2>Step 1:</h2>
     <h3>Enter your roster:</h3>
-    <form action="" method="post" name="roster" role="form">
+   
     {{form.hidden_tag()}}
       <p>
         {% for entry in form %}<br>
         <tr><td>{{entry(class_='form-control', placeholder=entry.label.text)}}</td></tr>    
         {% endfor %}<br>    
-        {% for error in form.errors.openid %}
+        {% for error in form.errors %}
         <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
       </p>
-      <p><input type="submit" value="Optimize" class="btn btn-primary"></p>
-    </form>    
+          
   </div>
   
   <div class="col-lg-6 col-md-6 col-sm-6">
-    <h1>Heading2</h1>
     <h2>Step 2:</h2>
-    <h3>Select week:</h3>
+    <h3>Optimize:</h3>
+    <button class="btn btn-large btn-primary" type="submit">GO!</button>
   </div>
 </div>
+
+</form>
 </center>
 {% endblock %}
 

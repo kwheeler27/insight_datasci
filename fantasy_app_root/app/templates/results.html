@@ -12,5 +12,190 @@
 {% endblock %}
 
 {% block content %}
-<h1>Results</h1>
+{{ req.form['p1'] }}
+{% for elem in req.form.values() %}
+  <div>{{ elem }}</div>
+{% endfor %}
+<div class="row">
+  <h2>QB's</h2>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 ">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2580.png&w=350&h=254">
+    </a>
+    <div>Drew Brees</div>
+    <div>Projected Score: 24.2</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/12483.png&w=350&h=254">
+    </a>
+    <div>Matthew Stafford</div>
+    <div>Projected Score: 23.0</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2330.png&w=350&h=254">
+    </a>
+    <div>Tom Brady</div>
+    <div>Projected Score: 20.1</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/1428.png&w=350&h=254">
+    </a>
+    <div>Peyton Manning</div>
+    <div>Projected Score: 18.6</div>
+  </div>
+</div>
+
+<div class="row">
+  <h2>RB's</h2>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10452.png&w=350&h=254">
+    </a>
+    <div>Adrian Peterson</div>
+    <div>Projected Score: 26.7</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15009.png&w=350&h=254">
+    </a>
+    <div>Alfred Morris</div>
+    <div>Projected Score: 22.0</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10456.png&w=350&h=254">
+    </a>
+    <div>Marshawn Lynch</div>
+    <div>Projected Score: 18.4</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/14885.png&w=350&h=254">
+    </a>
+    <div>Doug Martin</div>
+    <div>Projected Score: 16.5</div>
+  </div>
+</div>
+
+<div class="row">
+  <h2>WR's</h2>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10447.png&w=350&h=254">
+    </a>
+    <div>Calvin Johnson</div>
+    <div>Projected Score: 19.8</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4461.png&w=350&h=254">
+    </a>
+    <div>Andre Johnson</div>
+    <div>Projected Score: 17.5</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/9705.png&w=350&h=254">
+    </a>
+    <div>Brandon Marshall</div>
+    <div>Projected Score: 16.0</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/13216.png&w=350&h=254">
+    </a>
+    <div>Demaryius Thomas</div>
+    <div>Projected Score: 14.3</div>
+  </div>
+</div>
+
+<div class="row">
+  <h2>TE's</h2>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/13232.png&w=350&h=254">
+    </a>
+    <div>Jimmy Graham</div>
+    <div>Projected Score: 14.6</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/1231.png&w=350&h=254">
+    </a>
+    <div>Tony Gonzalez</div>
+    <div>Projected Score: 13.1</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10475.png&w=350&h=254">
+    </a>
+    <div>Greg Olsen</div>
+    <div>Projected Score: 11.1</div>
+  </div>
+  
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/12705.png&w=350&h=254">
+    </a>
+    <div>Brandon Myers</div>
+    <div>Projected Score: 9.8</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <h2>Defense</h2>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <a href="#" class="thumbnail">
+        <img src="http://content.sportslogos.net/logos/7/179/thumbs/17994552009.gif">
+      </a>
+      <div>San Francisco</div>
+      <div>Projected Score: 12.8</div>
+    </div>
+    
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <a href="#" class="thumbnail">
+        <img src="http://content.sportslogos.net/logos/7/151/thumbs/y71myf8mlwlk8lbgagh3fd5e0.gif">
+      </a>
+      <div>New England</div>
+      <div>Projected Score: 9.0</div>
+    </div>
+  </div>
+  
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+  <h2>Kickers</h2>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15058.png&w=350&h=254">
+    </a>
+    <div>Blair Walsh</div>
+    <div>Projected Score: 8</div>
+  </div>
+  
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <a href="#" class="thumbnail">
+      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2148.png&w=350&h=254">
+    </a>
+    <div>Sebastian Janikowski</div>
+    <div>Projected Score: 8</div>
+  </div>
+</div>  
+</div> 
+
+
+  
 {% endblock %}

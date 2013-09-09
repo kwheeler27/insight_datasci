@@ -13,6 +13,11 @@
     <link href="/static/css/sticky-footer.css" rel="stylesheet">
     <link href="/static/css/app.css" rel="stylesheet">
     
+    <script>
+      $(document).ready(function() {
+        
+      });
+    </script>
   </head>
   <body>
     <div id="wrap">
@@ -25,19 +30,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Fantasy Football Lineups</a>
+          <a class="navbar-brand" href="#">Optimal Lineups</a>
         </div>
         {% block nav %}{% endblock %}
       </div>
     </div>
-    
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul>
+    <div>TEST</div>
     {% for message in messages %}
       <li>{{ message }} </li>
     {% endfor %}
     </ul>
+    {% else %}
+    <div>NO MSGS</div>
     {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
