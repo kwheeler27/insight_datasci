@@ -4,7 +4,7 @@ import time
 import csv
 from bs4 import BeautifulSoup
 import numpy as np
-import pandas
+import pandas as pd
 import string
 
 def is_stat_row(c):
@@ -27,6 +27,8 @@ def get_stat_category(str):
     return 'returns'
   elif re.search(r'[\w.\s]+(Kicking)', str):
     return 'kicking'
+  elif re.search(r'[\w.\s]+(Tackles)', str):
+    return 'defensive'
   else:
     return 'NO MATCH'
 
@@ -40,7 +42,6 @@ def get_plyr_data(cols, cat):
   if plyr_id:
     data.append(plyr_id.group(1))
     data.append(plyr_id.group(2))
-    print plyr_id.group(2)
     
   if cat == 'passing':
     pass_yds = int(cols[2].text.encode('ascii', 'ignore'))
@@ -62,17 +63,24 @@ def get_plyr_data(cols, cat):
     ints = int(cols[1].text.encode('ascii', 'ignore'))
     data.extend([0, 0, 0, 0, 0, 0, 0, 0, ints, 0, 0, 0])
   elif cat == 'defensive':
-    sacks = int(cols[3].text.encode('ascii', 'ignore'))
+    sacks = float(cols[3].text.encode('ascii', 'ignore'))
     def_tds = int(cols[7].text.encode('ascii', 'ignore'))
-    print "sacks: ", sacks
-    print "def tds: ", def_tds
     data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, sacks, def_tds, 0])
   elif cat == 'returns':
-    def_tds = int(cols[5].text.encode('ascii', 'ignore'))
+    def_tds = 0
+    if len(cols) < 6:
+      def_tds = int(cols[4].text.encode('ascii', 'ignore'))
+      if def_tds > 2:
+        def_tds = 0
+    else:
+      def_tds = int(cols[5].text.encode('ascii', 'ignore'))
     data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, def_tds, 0])
   elif cat == 'kicking':
-    kick_pts = int(cols[5].text.encode('ascii', 'ignore'))
-    print "kicking: ", kick_pts
+    kick_pts = 0
+    if len(cols) < 6:
+      kick_pts = int(cols[4].text.encode('ascii', 'ignore'))
+    else:
+      kick_pts = int(cols[5].text.encode('ascii', 'ignore'))
     data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, kick_pts])
   return data
 
@@ -93,15 +101,19 @@ def fantasy_pts(arr):
   return pts
 
 def calc_scores(arr2d):
+  print "CALCULATING SCORES..."
   scores = [['game_id','plyr_id', 'name', 'score']]
   for row in arr2d:
     arr = [row[0], row[1], row[2]]
-    arr.append(fantasy_pts(row[3:]))
-    scores.append(arr)
+    if arr[1] != 0:
+      arr.append(fantasy_pts(row[3:]))
+      print arr
+      scores.append(arr)
   plyr_pts = np.array(scores)
   return plyr_pts
 
 def consolidate_scores(arr2d):
+  print "CONSOLIDATING SCORES..."
   new_scores = []
   col1 = arr2d[1:,0]
   col2 = arr2d[1:,1]
@@ -131,22 +143,28 @@ def consolidate_scores(arr2d):
         tot_pts += float(col4[j])
     elems.append(tot_pts)
     result.append(elems)
-  print np.array(result)
-  return []
+  return np.array(result) 
   
 def main():
-  '''
-  wfile = open("game_stats.csv", "wb")
+  #read in game_ids
+  games_data = pd.read_csv('games-data.csv')
+  all_games = np.array(games_data['game_id'])
+  uni_game_ids = np.unique(all_games)
+  
+  #open write file, write field names
+  #wfile = open("fantasy_scores.csv", "wb")
   field_names = ['game_id','plyr_id', 'name', 'pass_yds', 'pass_tds', 'pass_ints', 'rush_yds', 'rush_tds', 'rec_yds', 'rec_tds', 'fum_lost', 'interceptions', 'sacks', 'def_tds', 'kick_pts']
-  writer = csv.writer(wfile)
-  writer.writerow(field_names)
-  '''
+  #writer = csv.writer(wfile)
+  #writer.writerow(field_names)
   count = 1
   #teams = ['buf/buffalo-bills', 'mia/miami-dolphins', 'ne/new-england-patriots', 'nyj/new-york-jets', 'den/denver-broncos', 'kc/kansas-city-chiefs', 'oak/oakland-raiders', 'sd/san-diego-chargers', 'bal/baltimore-ravens', 'cin/cincinnati-bengals', 'cle/cleveland-browns', 'pit/pittsburgh-steelers', 'hou/houston-texans', 'ind/indianapolis-colts', 'jac/jacksonville-jaguars', 'ten/tennessee-titans', 'dal/dallas-cowboys', 'nyg/new-york-giants', 'phi/philadelphia-eagles', 'wsh/washington-redskins', 'ari/arizona-cardinals', 'stl/st-louis-rams', 'sf/san-francisco-49ers', 'sea/seattle-seahawks', 'chi/chicago-bears', 'det/detroit-lions', 'gb/green-bay-packers', 'min/minnesota-vikings', 'atl/atlanta-falcons', 'car/carolina-panthers', 'no/new-orleans-saints', 'tb/tampa-bay-buccaneers'] 
   
   games = [330908014]
   game_data = []
-  for game in games:
+  print "GAME IDS READ. GETTING GAME DATA..."
+  for game in uni_game_ids:
+    print count, game
+    count += 1
     boxscore_url = "http://scores.espn.go.com/nfl/boxscore?gameId=%s" % (game)
     boxscore_res = requests.get(boxscore_url)
     soup = BeautifulSoup(boxscore_res.content)
@@ -165,6 +183,9 @@ def main():
   game_stats = np.array(game_data)
   fantasy_scores = calc_scores(game_stats)
   consolidated_scores = consolidate_scores(fantasy_scores)
+  fantasy_frame = pd.DataFrame(consolidated_scores, columns=['game_id','plyr_id', 'name', 'fntsy_pts'])
+  fantasy_frame.to_csv('fantasy_scores.csv')
+  #print consolidated_scores
      
         
   '''
@@ -181,7 +202,8 @@ def main():
             print data
             writer.writerow(data)
             count += 1
-  wfile.close()
   '''
+  #wfile.close()
+  
 if __name__ == '__main__':
   main()
