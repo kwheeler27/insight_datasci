@@ -39,38 +39,43 @@ def discretize(arr):
   result = []
   
   for i in arr:
-    if i <= 2.5:
+    if i <= 3.0:
       result.append(0)
-    elif i > 2.5 and i <= 5.0:
+    elif i > 3.0 and i <= 6.0:
       result.append(1)
-    elif i > 5.0 and i <= 7.5:
+    elif i > 6.0 and i <= 9.0:
       result.append(2)
-    elif i > 7.5 and i <= 10.0:
+    elif i > 9.0 and i <= 12.0:
       result.append(3)       
-    elif i > 10.0 and i <= 12.5:
+    elif i > 12.0 and i <= 15.0:
       result.append(4)
-    elif i > 12.5 and i <= 15.0:
+    elif i > 15.0 and i <= 18.0:
       result.append(5)
-    elif i > 15 and i <= 17.5:
+    elif i > 18 and i <= 21.0:
       result.append(6)
-    elif i > 17.5 and i <= 20.0:
+    elif i > 21.0 and i <= 24.0:
       result.append(7)       
-    elif i > 20.0 and i <= 22.5:
+    elif i > 24.0 and i <= 27.0:
       result.append(8)
-    elif i > 22.5 and i <= 25.0:
+    elif i > 27.0 and i <= 30.0:
       result.append(9)
-    elif i > 25.0 and i <= 27.5:
-      result.append(10)
-    elif i > 27.5 and i <= 30:
-      result.append(11)
     else:
-      result.append(12)
+      result.append(10)
   return np.array(result)       
 
 def get_ninety_percent(l):
   return int(math.floor(l * 0.99))  
 
+def normalize_probs(arr):
+  norm = arr.sum()
+  return np.divide(arr, norm)
 
+def expected_val(nb_norm_prob, vals):
+  ans = 0
+  for i in xrange(nb_norm_prob.shape[0]):
+    ans += nb_norm_prob[i]*vals[i]
+  return ans
+  
 def main():
   start_time = time.time()
   #read in game IDs
@@ -115,7 +120,15 @@ def main():
     print plyr_game_ids[i], scores.values[i], test_Y[i], nb_predictions[i], mn_predictions[i]
   
   print "Bernoulli NB accuracy: ", nb_clf.score(test_X, test_Y)
+  
+  print "Bernoulli NB prob estimates: ", nb_clf.predict_proba(test_X)
   print "Multinomial NB accuracy: ", mn_clf.score(test_X, test_Y)
+  print "Bernoulli NB prob estimates: ", mn_clf.predict_proba(test_X)
+  print len(nb_clf.predict_proba(test_X)[0])
+  nb_norm_prob = normalize_probs(nb_clf.predict_proba(test_X)[0])
+  vals = [1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 25.5, 28.5, 31.5]
+  ev = expected_val(nb_norm_prob, vals)
+  print "EV: ", ev
   end_time = time.time()
   print("Elapsed time was %g seconds" % (end_time - start_time))  
   #plyr_X.to_csv('test.csv')

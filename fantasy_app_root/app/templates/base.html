@@ -12,12 +12,50 @@
     <!-- Custom styles for this project -->
     <link href="/static/css/sticky-footer.css" rel="stylesheet">
     <link href="/static/css/app.css" rel="stylesheet">
+    <link href="/static/css/typeahead.css" rel="stylesheet">
+    
+    
+    <!-- Autocomplete widget -->
+    <script src="/static/js/typeahead.js"></script>
     
     <script>
       $(document).ready(function() {
-        
+        $('.typeahead.input-sm').siblings('input.tt-hint').addClass('hint-small');
+        $('.typeahead.input-lg').siblings('input.tt-hint').addClass('hint-large');
       });
     </script>
+    
+    <script>
+    $(function() {
+      var availableTags = [
+        "ActionScript",
+        "AppleScript",
+        "Asp",
+        "BASIC",
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+        "Groovy",
+        "Haskell",
+        "Java",
+        "JavaScript",
+        "Lisp",
+        "Perl",
+        "PHP",
+        "Python",
+        "Ruby",
+        "Scala",
+        "Scheme"
+      ];
+      $( ".query" ).typeahead({
+        local: availableTags
+      });
+    });
+  </script>
   </head>
   <body>
     <div id="wrap">

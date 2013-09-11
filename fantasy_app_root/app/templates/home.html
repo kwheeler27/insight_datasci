@@ -10,6 +10,8 @@
 </div><!--/.nav-collapse -->
 {% endblock %}
 {% block content %}
+
+
 <center>
 <form action="{{ url_for('optimize') }}" method="post" name="roster" role="form">
 <div class="row">
@@ -18,14 +20,14 @@
     <h3>Enter your roster:</h3>
    
     {{form.hidden_tag()}}
-      <p>
+      
         {% for entry in form %}<br>
-        <tr><td>{{entry(class_='form-control', placeholder=entry.label.text)}}</td></tr>    
+          {{entry(class_='query form-control', placeholder=entry.label.text)}}<br>  
         {% endfor %}<br>    
         {% for error in form.errors %}
         <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
-      </p>
+      
           
   </div>
   

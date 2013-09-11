@@ -28,16 +28,13 @@ def main():
       gamelog_res = requests.get(gamelog_url)
       soup = BeautifulSoup(gamelog_res.content)
       for tr in soup.find_all('tr', class_=is_game_row):
-        #print "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
         for child in tr.find_all(href=re.compile('/nfl/boxscore')):
           href_str = str(child)
           game_id = re.search(r'\?gameId=(\d+)', href_str)
           if game_id:
-            #print game_id.group(1)
             data = [count, int(game_id.group(1)), id]
             writer.writerow(data)
             count += 1
-        #print "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
     print pcount
     pcount += 1
     
