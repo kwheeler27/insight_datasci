@@ -37,7 +37,6 @@ def plyr_fantasy_pts(plyr_id, plyr_game_ids, fantasy_scores):
 
 def discretize(arr):
   result = []
-  
   for i in arr:
     if i <= 3.0:
       result.append(0)

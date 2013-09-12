@@ -71,14 +71,21 @@ def plyr_position(cur, name):
   pos = rows[0][0]
   return pos
 
+def player_id(cur, name):
+  command = "SELECT plyr_id FROM players WHERE name = '%s' LIMIT 1;" % (p)
+  cur.execute(command)
+  rows = cur.fetchall()
+  return int(rows[0][0])
+
 def convert_names_to_ids(cur, plyr_arr):
   id_arr = []
   for p in plyr_arr:
-    command = "SELECT plyr_id FROM players WHERE name = '%s' LIMIT 1;" % (p)
-    cur.execute(command)
-    rows = cur.fetchall()
-    id_arr.append(int(rows[0][0]))
+    id = player_id(cur, p)
+    id_arr.append(id)
   return id_arr
+
+def 
+
 
 def make_predictions(plyrs, week_num):
   db = connect()[0]
@@ -88,17 +95,26 @@ def make_predictions(plyrs, week_num):
   for p in plyrs:
     name = display_name(p)
     pos = plyr_position(cur, name)
+    id = player_id(cur, name)
     print name, pos
-    tot_plyrs = all_players(cur, name, week_num)  
-    print "ALL PLYRS: ", tot_plyrs
-    plyr_ids = convert_names_to_ids(cur, tot_plyrs)
-    print "PLYR IDS: ", plyr_ids
+    game_plyrs = all_players(cur, name, week_num)  
+    plyr_ids = convert_names_to_ids(cur, game_plyrs)
     #test_x = construct_test_vec(
+    
+    pts = predict(cur, id, game_plyrs)
+    plyr_dict = {}
+    plyr_dict[name] = pts
+    if pos in predictions:
+      predictions[pos].append(plyr_dict)
+    else:
+      predictions[pos] = []
+      predictions[pos].append(plyr_dict)
+    
   cur.close()
   del cur
   db.close()
   del db  
-  return predictions
+  return {} #predictions
   
   
   
