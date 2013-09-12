@@ -1,6 +1,34 @@
 from app import app
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify, session
 from forms import RosterForm
+import MySQLdb as mdb
+import json
+from predictions import *
+
+@app.route('/players', methods = ['GET'])
+def players():
+  con = mdb.connect(host='localhost', db='fantasy_lineups', user='root')
+  cur = con.cursor()
+  #test
+  command = "SELECT name, position FROM players;"
+  output = cur.execute(command)
+  rows = cur.fetchall()
+
+  temparr = []
+  for row in rows:
+    display_name = row[0]
+    pos = row[1]
+    n = display_name.replace('-',' ')
+    
+    temparr.append({'value':'%s' % n.title(),
+                   'tokens':n.split(' '),
+                   'name':n,
+                   'position':row[1]})
+  cur.close()
+  con.close()
+  return json.dumps(temparr)
+
+
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/home', methods = ['GET', 'POST'])
@@ -25,10 +53,14 @@ def validation():
     
 @app.route('/optimize', methods = ['POST'])
 def optimize():
-  req = request
-  return render_template("results.html", req=req)
+  session['form'] = request.form
+  return redirect(url_for('results'))
     
 @app.route('/results')
 def results():
-  form = request.args
+  form = session['form']
+  week = get_week(form) #check if week is selected
+  plyrs = plyr_names(form) #check if each name is valid
+  predictions = make_predictions(plyrs, week)
+  print predictions
   return render_template("results.html", form=form)

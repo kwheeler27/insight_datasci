@@ -4,12 +4,6 @@ import pandas as pd
 import numpy as np
 from pandas.io import sql
 
-#connect to MySQL
-def connect():
-  #db = mdb.connect(host='localhost', user='root', local_infile = 1) # used if loading from local csv)
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root')
-  db.autocommit(True)
-  return db, db.cursor()
 
 #Create DB
 def create_db(cur):

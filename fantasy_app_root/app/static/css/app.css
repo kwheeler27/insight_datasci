@@ -20,11 +20,33 @@ form {
   margin: 0px 15px;
 }
 
-.btn-primary{
-  margin: 250px 0px;
-  padding: 20px 50px;
+.week-box div .btn-primary {
+  margin: 4px 0px;
 }
 
+.week-box {
+  margin: 60px 0px;
+  
+}
+
+#btn-optimize {
+  padding: 20px 30px;
+  margin: 25px 0px;
+
+}
+
+.btn-primary {
+  color: #428bca;
+  background-color: #fff;
+}
+
+.query {
+  border-color: #357ebd;
+}
+
+.form-container {
+  margin-top: -20px;
+}
 
 
 

@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, BooleanField
+from wtforms import TextField, BooleanField, validators, RadioField
 from wtforms.validators import Required
-
+   
 class RosterForm(Form):
     p1 = TextField('Player 1', validators = [Required()])
     p2 = TextField('Player 2', validators = [Required()])

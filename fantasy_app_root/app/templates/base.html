@@ -13,49 +13,40 @@
     <link href="/static/css/sticky-footer.css" rel="stylesheet">
     <link href="/static/css/app.css" rel="stylesheet">
     <link href="/static/css/typeahead.css" rel="stylesheet">
-    
-    
+     
     <!-- Autocomplete widget -->
     <script src="/static/js/typeahead.js"></script>
+    <script src="/static/js/hogan-2.0.0.min.js"></script>
     
     <script>
       $(document).ready(function() {
+        var MyEngine = {
+          compile: function(template) {
+            return {
+              render: function(context) {
+                return template.replace(/\{\{(\w+)\}\}/g, function (match,p1) { return context[p1]; });
+              }
+            };
+          }
+        };
+        
         $('.typeahead.input-sm').siblings('input.tt-hint').addClass('hint-small');
         $('.typeahead.input-lg').siblings('input.tt-hint').addClass('hint-large');
-      });
+        
+        var test = ['rest', 'huh', 'what', 'aaaa', 'alex', 'aaron'];
+        
+        $.getJSON("{{ url_for('players') }}", function(data) {
+          console.log(data);
+          
+          
+          $( ".query" ).typeahead({
+            prefetch: "{{ url_for('players') }}"
+          });      
+        });
+      }); 
+      
+      
     </script>
-    
-    <script>
-    $(function() {
-      var availableTags = [
-        "ActionScript",
-        "AppleScript",
-        "Asp",
-        "BASIC",
-        "C",
-        "C++",
-        "Clojure",
-        "COBOL",
-        "ColdFusion",
-        "Erlang",
-        "Fortran",
-        "Groovy",
-        "Haskell",
-        "Java",
-        "JavaScript",
-        "Lisp",
-        "Perl",
-        "PHP",
-        "Python",
-        "Ruby",
-        "Scala",
-        "Scheme"
-      ];
-      $( ".query" ).typeahead({
-        local: availableTags
-      });
-    });
-  </script>
   </head>
   <body>
     <div id="wrap">
@@ -81,8 +72,7 @@
       <li>{{ message }} </li>
     {% endfor %}
     </ul>
-    {% else %}
-    <div>NO MSGS</div>
+    
     {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}

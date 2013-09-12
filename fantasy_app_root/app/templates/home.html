@@ -12,29 +12,96 @@
 {% block content %}
 
 
+
+
 <center>
 <form action="{{ url_for('optimize') }}" method="post" name="roster" role="form">
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6">    
     <h2>Step 1:</h2>
     <h3>Enter your roster:</h3>
-   
-    {{form.hidden_tag()}}
-      
-        {% for entry in form %}<br>
-          {{entry(class_='query form-control', placeholder=entry.label.text)}}<br>  
+    <div class="form-container">
+    {{form.hidden_tag()}}    
+        {% for entry in form %}<br> 
+          {{entry(class_='query form-control', placeholder=entry.label.text)}}<br>
         {% endfor %}<br>    
         {% for error in form.errors %}
         <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
-      
-          
+    </div>   
   </div>
   
   <div class="col-lg-6 col-md-6 col-sm-6">
-    <h2>Step 2:</h2>
-    <h3>Optimize:</h3>
-    <button class="btn btn-large btn-primary" type="submit">GO!</button>
+    <div class="row">
+      <h2>Step 2:</h2>
+      <h3>Select Week:</h3>
+      <div class="week-box">  
+      <div class="btn-group-lg" data-toggle="buttons">
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w1"> 01
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w2"> 02
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w3"> 03
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w4"> 04
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w5"> 05
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w6"> 06
+        </label>
+        <div></div>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w7"> 07
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w8"> 08
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w9"> 09
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w10"> 10
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w11"> 11
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w12"> 12
+        </label>
+        <div></div>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w13"> 13
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w14"> 14
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w15"> 15
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w16"> 16
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w17"> 17
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="week" value="w18"> 18
+        </label>
+      </div>
+      </div>
+      
+    </div>
+    <div class="row">
+      <h2>Step 3:</h2>
+      <h3>Optimize:</h3>
+      <button id="btn-optimize" class="btn btn-large btn-primary" type="submit">GO!</button>
+    </div>
   </div>
 </div>
 
