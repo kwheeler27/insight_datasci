@@ -71,155 +71,308 @@
     </div> <!--/.nested-col-->
     </div> <!--/.nested-row-->
   </div> <!--/.col-->
+
+<!--RBS-->
+
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+  <h2 style="text-align: center">RB's</h2>
+  {% for elem in rb %}  
+    {% for dict in elem %}
+    {% if loop.first %}  
+      {% for k, v in dict.items() %}
+      
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+      
+      {% endfor %}
+      <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                The best of the rest...
+              </a>
+            </h4>
+          </div> <!--/.panel-heading-->
+          <div id="collapseOne" class="panel-collapse collapse">
+    {% else %}  
+          {% for k, v in dict.items() %}
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+          {% endfor %}
+    {% endif %}
+      {% endfor %}
+    {% endfor %}    
+        </div> <!--/.panel-collapse-->
+      </div> <!--/.panel-default-->
+    </div> <!--/.panel-group-->
+    </div> <!--/.nested-col-->
+    </div> <!--/.nested-row-->
+  </div> <!--/.col-->
+
+<!--WRS-->
+
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+  <h2 style="text-align: center">WR's</h2>
+  {% for elem in wr %}  
+    {% for dict in elem %}
+    {% if loop.first %}  
+      {% for k, v in dict.items() %}
+      
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+      
+      {% endfor %}
+      <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                The best of the rest...
+              </a>
+            </h4>
+          </div> <!--/.panel-heading-->
+          <div id="collapseOne" class="panel-collapse collapse">
+    {% else %}  
+          {% for k, v in dict.items() %}
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+          {% endfor %}
+    {% endif %}
+      {% endfor %}
+    {% endfor %}    
+        </div> <!--/.panel-collapse-->
+      </div> <!--/.panel-default-->
+    </div> <!--/.panel-group-->
+    </div> <!--/.nested-col-->
+    </div> <!--/.nested-row-->
+  </div> <!--/.col-->
+
+<!--TES-->
+
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+  <h2 style="text-align: center">TE's</h2>
+  {% for elem in te %}  
+    {% for dict in elem %}
+    {% if loop.first %}  
+      {% for k, v in dict.items() %}
+      
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+      
+      {% endfor %}
+      <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                The best of the rest...
+              </a>
+            </h4>
+          </div> <!--/.panel-heading-->
+          <div id="collapseOne" class="panel-collapse collapse">
+    {% else %}  
+          {% for k, v in dict.items() %}
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+          {% endfor %}
+    {% endif %}
+      {% endfor %}
+    {% endfor %}    
+        </div> <!--/.panel-collapse-->
+      </div> <!--/.panel-default-->
+    </div> <!--/.panel-group-->
+    </div> <!--/.nested-col-->
+    </div> <!--/.nested-row-->
+  </div> <!--/.col-->
+
+<!--K-->
+
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+  <h2 style="text-align: center">K's</h2>
+  {% for elem in kc %}  
+    {% for dict in elem %}
+    {% if loop.first %}  
+      {% for k, v in dict.items() %}
+      
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+      
+      {% endfor %}
+      <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                The best of the rest...
+              </a>
+            </h4>
+          </div> <!--/.panel-heading-->
+          <div id="collapseOne" class="panel-collapse collapse">
+    {% else %}  
+          {% for k, v in dict.items() %}
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+          {% endfor %}
+    {% endif %}
+      {% endfor %}
+    {% endfor %}    
+        </div> <!--/.panel-collapse-->
+      </div> <!--/.panel-default-->
+    </div> <!--/.panel-group-->
+    </div> <!--/.nested-col-->
+    </div> <!--/.nested-row-->
+  </div> <!--/.col-->
+
+<!--DEF-->
+
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+  <h2 style="text-align: center">D's</h2>
+  {% for elem in qb %}  
+    {% for dict in elem %}
+    {% if loop.first %}  
+      {% for k, v in dict.items() %}
+      
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+      
+      {% endfor %}
+      <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                The best of the rest...
+              </a>
+            </h4>
+          </div> <!--/.panel-heading-->
+          <div id="collapseOne" class="panel-collapse collapse">
+    {% else %}  
+          {% for k, v in dict.items() %}
+        <div class="thumbnail">
+        <!-- Default panel contents -->
+          <img src={{ v[1] }}>
+          <h4 style="text-align: center">{{ k }}</h4>
+          <div class="caption">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            </div>
+          </div>
+          <div class="prj-score">Projected Score: {{ v[0] }}</div>
+          </div> <!--/.caption-->
+        </div> <!--/.thumbnail-->
+          {% endfor %}
+    {% endif %}
+      {% endfor %}
+    {% endfor %}    
+        </div> <!--/.panel-collapse-->
+      </div> <!--/.panel-default-->
+    </div> <!--/.panel-group-->
+    </div> <!--/.nested-col-->
+    </div> <!--/.nested-row-->
+  </div> <!--/.col-->
+
 </div> <!--/.main-row-->
-
-
-
-<div class="row">
-  <h2>RB's</h2>
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10452.png&w=350&h=254">
-    </a>
-    <div>Adrian Peterson</div>
-    <div>Projected Score: 26.7</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15009.png&w=350&h=254">
-    </a>
-    <div>Alfred Morris</div>
-    <div>Projected Score: 22.0</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10456.png&w=350&h=254">
-    </a>
-    <div>Marshawn Lynch</div>
-    <div>Projected Score: 18.4</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/14885.png&w=350&h=254">
-    </a>
-    <div>Doug Martin</div>
-    <div>Projected Score: 16.5</div>
-  </div>
-</div>
-
-<div class="row">
-  <h2>WR's</h2>
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10447.png&w=350&h=254">
-    </a>
-    <div>Calvin Johnson</div>
-    <div>Projected Score: 19.8</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4461.png&w=350&h=254">
-    </a>
-    <div>Andre Johnson</div>
-    <div>Projected Score: 17.5</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/9705.png&w=350&h=254">
-    </a>
-    <div>Brandon Marshall</div>
-    <div>Projected Score: 16.0</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/13216.png&w=350&h=254">
-    </a>
-    <div>Demaryius Thomas</div>
-    <div>Projected Score: 14.3</div>
-  </div>
-</div>
-
-<div class="row">
-  <h2>TE's</h2>
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/13232.png&w=350&h=254">
-    </a>
-    <div>Jimmy Graham</div>
-    <div>Projected Score: 14.6</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/1231.png&w=350&h=254">
-    </a>
-    <div>Tony Gonzalez</div>
-    <div>Projected Score: 13.1</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10475.png&w=350&h=254">
-    </a>
-    <div>Greg Olsen</div>
-    <div>Projected Score: 11.1</div>
-  </div>
-  
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/12705.png&w=350&h=254">
-    </a>
-    <div>Brandon Myers</div>
-    <div>Projected Score: 9.8</div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <h2>Defense</h2>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-      <a href="#" class="thumbnail">
-        <img src="http://content.sportslogos.net/logos/7/179/thumbs/17994552009.gif">
-      </a>
-      <div>San Francisco</div>
-      <div>Projected Score: 12.8</div>
-    </div>
-    
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-      <a href="#" class="thumbnail">
-        <img src="http://content.sportslogos.net/logos/7/151/thumbs/y71myf8mlwlk8lbgagh3fd5e0.gif">
-      </a>
-      <div>New England</div>
-      <div>Projected Score: 9.0</div>
-    </div>
-  </div>
-  
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-  <h2>Kickers</h2>
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15058.png&w=350&h=254">
-    </a>
-    <div>Blair Walsh</div>
-    <div>Projected Score: 8</div>
-  </div>
-  
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2148.png&w=350&h=254">
-    </a>
-    <div>Sebastian Janikowski</div>
-    <div>Projected Score: 8</div>
-  </div>
-</div>  
-</div> 
-
 
   
 {% endblock %}

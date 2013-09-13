@@ -66,7 +66,7 @@ def results():
   wr = []
   rb = []
   te = []
-  k = []
+  kc = []
   
   if 'QB' in predictions:
     qb.append(predictions['QB'])
@@ -77,10 +77,10 @@ def results():
   if 'TE' in predictions:
     te.append(predictions['TE'])
   if 'K' in predictions:
-    k.append(predictions['K'])
+    kc.append(predictions['K'])
   
     
-  return render_template("results.html", form=form, qb=qb, wr=wr, rb=rb, te=te, k=k)
+  return render_template("results.html", form=form, qb=qb, wr=wr, rb=rb, te=te, kc=kc)
   
   
   

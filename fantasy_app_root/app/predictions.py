@@ -31,7 +31,7 @@ def plyr_names(form):
 
 #returns the team abbreviation that a given player plays for
 def get_team(cur, plyr):
-  command = "SELECT team FROM players WHERE name = '%s' LIMIT 1;" % (plyr)
+  command = "SELECT team FROM players WHERE name = '%s' LIMIT 1;" % (mdb.escape_string(plyr))
   cur.execute(command)
   rows = cur.fetchall()
   plyr_team = rows[0][0]
@@ -69,14 +69,14 @@ def all_players(cur, plyr_name, week):
 
 #returns a player's position
 def plyr_position(cur, name):
-  command = "SELECT position FROM players WHERE name = '%s' LIMIT 1;" % (name)
+  command = "SELECT position FROM players WHERE name = '%s' LIMIT 1;" % (mdb.escape_string(name))
   cur.execute(command)
   rows = cur.fetchall()
   pos = rows[0][0]
   return pos
 
 def player_id(cur, name):
-  command = "SELECT plyr_id FROM players WHERE name = '%s' LIMIT 1;" % (name)
+  command = "SELECT plyr_id FROM players WHERE name = '%s' LIMIT 1;" % (mdb.escape_string(name))
   cur.execute(command)
   rows = cur.fetchall()
   return int(rows[0][0])
@@ -99,7 +99,7 @@ def all_player_ids(cur):
 
 def games_played_in(cur, id):
   arr = []
-  command = "SELECT DISTINCT(game_id) FROM matchups WHERE plyr_id = '%s';" % (id)
+  command = "SELECT game_id FROM fantasy_scores WHERE plyr_id = '%s';" % (id)
   cur.execute(command)
   rows = cur.fetchall()
   for r in rows:
@@ -162,6 +162,7 @@ def training_output_vector(cur, games, plyr_id):
     command = "SELECT fntsy_pts FROM fantasy_scores WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
     cur.execute(command)
     rows = cur.fetchall()
+    print g
     arr.append(rows[0][0])
   y = discretize(arr)
   return y
@@ -223,6 +224,9 @@ def make_predictions(plyrs, week_num):
     pts = predict(cur, id, plyr_ids)
     plyr_dict = {}
     plyr_dict[name] = (pts, img_url)
+    
+    if pos == 'PK':
+      pos = 'K'
     if pos in predictions:
       predictions[pos].append(plyr_dict)
       predictions[pos].sort(reverse=True, key=lambda elem:elem.values()[0] )
