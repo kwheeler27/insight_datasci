@@ -13,66 +13,57 @@
 
 {% block content %}
 
-<div class="row outer-row">
+<div class="row">
+<!--QBs-->  
+
   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
   <h2 style="text-align: center">QB's</h2>
+  {% if not qb %}
+  <div class="thumbnail">
+    <h4 style="text-align: center">No QB's selected</h4>
+    <img src='/static/img/placeholder.png'>
+    
+    <div class="caption" style="text-align: center">Check out predicted rankings</div>
+  </div> <!--/.thumbnail-->   
+  
+  {% endif %}
+  
   {% for elem in qb %}  
     {% for dict in elem %}
     {% if loop.first %}  
       {% for k, v in dict.items() %}
-      
-        <div class="thumbnail">
+      <div class="thumbnail">
         <!-- Default panel contents -->
           <img src={{ v[1] }}>
           <h4 style="text-align: center">{{ k }}</h4>
           <div class="caption">
           <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
             </div>
           </div>
           <div class="prj-score">Projected Score: {{ v[0] }}</div>
           </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
+        </div> <!--/.thumbnail-->   
+      {% endfor %}
+      <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        More QBs <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu qb-ul" role="menu">
+      </ul>
+      {% else %}   
+      {% for k, v in dict.items() %}
+        <script>
+        $('.qb-ul').append("<li role='presentation'><div class='thumbnail'><img src={{ v[1] }}><h4 style='text-align: center'>{{ k }}</h4><div class='caption'><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score'>Projected Score: {{ v[0] }}</div></div></div></li>");
+        </script>
+      {% endfor %}
+      {% endif %}   
+    {% endfor %}
+  {% endfor %}
+    </div> <!--btn-group-->
+  </div> <!--col-->
       
-      {% endfor %}
-      <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                The best of the rest...
-              </a>
-            </h4>
-          </div> <!--/.panel-heading-->
-          <div id="collapseOne" class="panel-collapse collapse">
-    {% else %}  
-          {% for k, v in dict.items() %}
-        <div class="thumbnail">
-        <!-- Default panel contents -->
-          <img src={{ v[1] }}>
-          <h4 style="text-align: center">{{ k }}</h4>
-          <div class="caption">
-          <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
-            </div>
-          </div>
-          <div class="prj-score">Projected Score: {{ v[0] }}</div>
-          </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-          {% endfor %}
-    {% endif %}
-      {% endfor %}
-    {% endfor %}    
-        </div> <!--/.panel-collapse-->
-      </div> <!--/.panel-default-->
-    </div> <!--/.panel-group-->
-    </div> <!--/.nested-col-->
-    </div> <!--/.nested-row-->
-  </div> <!--/.col-->
-
-<!--RBS-->
+<!--RBs-->
 
   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
   <h2 style="text-align: center">RB's</h2>
@@ -80,59 +71,38 @@
     {% for dict in elem %}
     {% if loop.first %}  
       {% for k, v in dict.items() %}
-      
-        <div class="thumbnail">
+      <div class="thumbnail">
         <!-- Default panel contents -->
           <img src={{ v[1] }}>
           <h4 style="text-align: center">{{ k }}</h4>
           <div class="caption">
           <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
             </div>
           </div>
           <div class="prj-score">Projected Score: {{ v[0] }}</div>
           </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-      
+        </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                The best of the rest...
-              </a>
-            </h4>
-          </div> <!--/.panel-heading-->
-          <div id="collapseOne" class="panel-collapse collapse">
-    {% else %}  
-          {% for k, v in dict.items() %}
-        <div class="thumbnail">
-        <!-- Default panel contents -->
-          <img src={{ v[1] }}>
-          <h4 style="text-align: center">{{ k }}</h4>
-          <div class="caption">
-          <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
-            </div>
-          </div>
-          <div class="prj-score">Projected Score: {{ v[0] }}</div>
-          </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-          {% endfor %}
-    {% endif %}
+      <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        More RBs <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu rb-ul" role="menu">
+      </ul>
+      {% else %}   
+      {% for k, v in dict.items() %}
+        <script>
+        $('.rb-ul').append("<li><div class='thumbnail'><img src={{ v[1] }}><h4 style='text-align: center'>{{ k }}</h4><div class='caption'><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score'>Projected Score: {{ v[0] }}</div></div></div></li>");
+        </script>
       {% endfor %}
-    {% endfor %}    
-        </div> <!--/.panel-collapse-->
-      </div> <!--/.panel-default-->
-    </div> <!--/.panel-group-->
-    </div> <!--/.nested-col-->
-    </div> <!--/.nested-row-->
-  </div> <!--/.col-->
+      {% endif %}   
+    {% endfor %}
+  {% endfor %}
+    </div> <!--btn-group-->
+  </div> <!--col-->
 
-<!--WRS-->
+<!--WRs-->
 
   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
   <h2 style="text-align: center">WR's</h2>
@@ -140,59 +110,38 @@
     {% for dict in elem %}
     {% if loop.first %}  
       {% for k, v in dict.items() %}
-      
-        <div class="thumbnail">
+      <div class="thumbnail">
         <!-- Default panel contents -->
           <img src={{ v[1] }}>
           <h4 style="text-align: center">{{ k }}</h4>
           <div class="caption">
           <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
             </div>
           </div>
           <div class="prj-score">Projected Score: {{ v[0] }}</div>
           </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-      
+        </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                The best of the rest...
-              </a>
-            </h4>
-          </div> <!--/.panel-heading-->
-          <div id="collapseOne" class="panel-collapse collapse">
-    {% else %}  
-          {% for k, v in dict.items() %}
-        <div class="thumbnail">
-        <!-- Default panel contents -->
-          <img src={{ v[1] }}>
-          <h4 style="text-align: center">{{ k }}</h4>
-          <div class="caption">
-          <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
-            </div>
-          </div>
-          <div class="prj-score">Projected Score: {{ v[0] }}</div>
-          </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-          {% endfor %}
-    {% endif %}
+      <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        More WRs <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu wr-ul" role="menu">
+      </ul>
+      {% else %}   
+      {% for k, v in dict.items() %}
+        <script>
+        $('.wr-ul').append("<li><div class='thumbnail'><img src={{ v[1] }}><h4 style='text-align: center'>{{ k }}</h4><div class='caption'><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score'>Projected Score: {{ v[0] }}</div></div></div></li>");
+        </script>
       {% endfor %}
-    {% endfor %}    
-        </div> <!--/.panel-collapse-->
-      </div> <!--/.panel-default-->
-    </div> <!--/.panel-group-->
-    </div> <!--/.nested-col-->
-    </div> <!--/.nested-row-->
-  </div> <!--/.col-->
+      {% endif %}   
+    {% endfor %}
+  {% endfor %}
+    </div> <!--btn-group-->
+  </div> <!--col-->
 
-<!--TES-->
+<!--TEs-->
 
   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
   <h2 style="text-align: center">TE's</h2>
@@ -200,179 +149,116 @@
     {% for dict in elem %}
     {% if loop.first %}  
       {% for k, v in dict.items() %}
-      
-        <div class="thumbnail">
+      <div class="thumbnail">
         <!-- Default panel contents -->
           <img src={{ v[1] }}>
           <h4 style="text-align: center">{{ k }}</h4>
           <div class="caption">
           <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
             </div>
           </div>
           <div class="prj-score">Projected Score: {{ v[0] }}</div>
           </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-      
+        </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                The best of the rest...
-              </a>
-            </h4>
-          </div> <!--/.panel-heading-->
-          <div id="collapseOne" class="panel-collapse collapse">
-    {% else %}  
-          {% for k, v in dict.items() %}
-        <div class="thumbnail">
-        <!-- Default panel contents -->
-          <img src={{ v[1] }}>
-          <h4 style="text-align: center">{{ k }}</h4>
-          <div class="caption">
-          <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
-            </div>
-          </div>
-          <div class="prj-score">Projected Score: {{ v[0] }}</div>
-          </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-          {% endfor %}
-    {% endif %}
+      <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        More TEs <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu te-ul" role="menu">
+      </ul>
+      {% else %}   
+      {% for k, v in dict.items() %}
+        <script>
+        $('.te-ul').append("<li><div class='thumbnail'><img src={{ v[1] }}><h4 style='text-align: center'>{{ k }}</h4><div class='caption'><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score'>Projected Score: {{ v[0] }}</div></div></div></li>");
+        </script>
       {% endfor %}
-    {% endfor %}    
-        </div> <!--/.panel-collapse-->
-      </div> <!--/.panel-default-->
-    </div> <!--/.panel-group-->
-    </div> <!--/.nested-col-->
-    </div> <!--/.nested-row-->
-  </div> <!--/.col-->
+      {% endif %}   
+    {% endfor %}
+  {% endfor %}
+    </div> <!--btn-group-->
+  </div> <!--col-->
+</div>
+<div class="row">
 
 <!--K-->
 
   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
   <h2 style="text-align: center">K's</h2>
-  {% for elem in kc %}  
+  {% for elem in pk %}  
     {% for dict in elem %}
     {% if loop.first %}  
       {% for k, v in dict.items() %}
-      
-        <div class="thumbnail">
+      <div class="thumbnail">
         <!-- Default panel contents -->
           <img src={{ v[1] }}>
           <h4 style="text-align: center">{{ k }}</h4>
           <div class="caption">
           <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
             </div>
           </div>
           <div class="prj-score">Projected Score: {{ v[0] }}</div>
           </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-      
+        </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                The best of the rest...
-              </a>
-            </h4>
-          </div> <!--/.panel-heading-->
-          <div id="collapseOne" class="panel-collapse collapse">
-    {% else %}  
-          {% for k, v in dict.items() %}
-        <div class="thumbnail">
-        <!-- Default panel contents -->
-          <img src={{ v[1] }}>
-          <h4 style="text-align: center">{{ k }}</h4>
-          <div class="caption">
-          <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
-            </div>
-          </div>
-          <div class="prj-score">Projected Score: {{ v[0] }}</div>
-          </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-          {% endfor %}
-    {% endif %}
+      <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        More Ks <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pk-ul" role="menu">
+      </ul>
+      {% else %}   
+      {% for k, v in dict.items() %}
+        <script>
+        $('.pk-ul').append("<li><div class='thumbnail'><img src={{ v[1] }}><h4 style='text-align: center'>{{ k }}</h4><div class='caption'><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score'>Projected Score: {{ v[0] }}</div></div></div></li>");
+        </script>
       {% endfor %}
-    {% endfor %}    
-        </div> <!--/.panel-collapse-->
-      </div> <!--/.panel-default-->
-    </div> <!--/.panel-group-->
-    </div> <!--/.nested-col-->
-    </div> <!--/.nested-row-->
-  </div> <!--/.col-->
+      {% endif %}   
+    {% endfor %}
+  {% endfor %}
+    </div> <!--btn-group-->
+  </div> <!--col-->
 
 <!--DEF-->
 
   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
   <h2 style="text-align: center">D's</h2>
-  {% for elem in qb %}  
+  {% for elem in d %}  
     {% for dict in elem %}
     {% if loop.first %}  
       {% for k, v in dict.items() %}
-      
-        <div class="thumbnail">
+      <div class="thumbnail">
         <!-- Default panel contents -->
           <img src={{ v[1] }}>
           <h4 style="text-align: center">{{ k }}</h4>
           <div class="caption">
           <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
             </div>
           </div>
           <div class="prj-score">Projected Score: {{ v[0] }}</div>
           </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-      
+        </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                The best of the rest...
-              </a>
-            </h4>
-          </div> <!--/.panel-heading-->
-          <div id="collapseOne" class="panel-collapse collapse">
-    {% else %}  
-          {% for k, v in dict.items() %}
-        <div class="thumbnail">
-        <!-- Default panel contents -->
-          <img src={{ v[1] }}>
-          <h4 style="text-align: center">{{ k }}</h4>
-          <div class="caption">
-          <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ v[0] * 3.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ v[0] * 3.3}}%">       
-            </div>
-          </div>
-          <div class="prj-score">Projected Score: {{ v[0] }}</div>
-          </div> <!--/.caption-->
-        </div> <!--/.thumbnail-->
-          {% endfor %}
-    {% endif %}
+      <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        More Ds <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu d-ul" role="menu">
+      </ul>
+      {% else %}   
+      {% for k, v in dict.items() %}
+        <script>
+        $('.d-ul').append("<li><div class='thumbnail'><img src={{ v[1] }}><h4 style='text-align: center'>{{ k }}</h4><div class='caption'><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score'>Projected Score: {{ v[0] }}</div></div></div></li>");
+        </script>
       {% endfor %}
-    {% endfor %}    
-        </div> <!--/.panel-collapse-->
-      </div> <!--/.panel-default-->
-    </div> <!--/.panel-group-->
-    </div> <!--/.nested-col-->
-    </div> <!--/.nested-row-->
-  </div> <!--/.col-->
-
-</div> <!--/.main-row-->
-
+      {% endif %}   
+    {% endfor %}
+  {% endfor %}
+    </div> <!--btn-group-->
+  </div> <!--col-->
+</div>
   
 {% endblock %}

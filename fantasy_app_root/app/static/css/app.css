@@ -64,6 +64,14 @@ form {
 	background: url('/static/img/preloader.gif') 50% 50% no-repeat;
 }
 
+.dropdown-toggle {
+  box-sizing: border-box;
+}
+
+.dropdown-menu {
+
+}
+
 
 
 

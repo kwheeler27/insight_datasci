@@ -162,7 +162,6 @@ def training_output_vector(cur, games, plyr_id):
     command = "SELECT fntsy_pts FROM fantasy_scores WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
     cur.execute(command)
     rows = cur.fetchall()
-    print g
     arr.append(rows[0][0])
   y = discretize(arr)
   return y

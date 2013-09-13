@@ -12,8 +12,9 @@
 {% block content %}
 
 
-
-
+{% if m %}
+<div class="alert alert-danger"><strong>Oh snap!</strong> Please select a week.</div>
+{% endif %}
 <center>
 <form action="{{ url_for('optimize') }}" method="post" name="roster" role="form" id="roster-form">
 <div class="row">

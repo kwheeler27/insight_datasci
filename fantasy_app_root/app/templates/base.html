@@ -42,7 +42,7 @@
         var test = ['rest', 'huh', 'what', 'aaaa', 'alex', 'aaron'];
         
         $.getJSON("{{ url_for('players') }}", function(data) {
-          console.log(data);
+
           
           
           $( ".query" ).typeahead({
@@ -51,11 +51,30 @@
           });      
         });
         
-        
-        
         $('#btn-optimize').click(function() {
 	        $(".loader").show();
         });
+        
+        $( ".progress-bar" ).addClass(function( index, currentClass ) {
+          var val = $(this).attr("aria-valuenow") / 3.3;
+
+          var status = "-success";
+          
+          if (val < 23.5 && val >= 18) {
+            status = "-info";
+          } else if (val < 18 && val >= 12) {
+            status = "";
+          } else if (val < 12 && val >= 6) {
+            status = "-warning";
+          } else if (val < 6) {
+            status = "-danger";
+          }
+          
+          var addedClass = "progress-bar" + status;
+          return addedClass;
+        });
+        
+        
       }); 
       
     </script>

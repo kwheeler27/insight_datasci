@@ -33,10 +33,11 @@ def players():
 @app.route('/home', methods = ['GET', 'POST'])
 def index():
     form = RosterForm()
+    m = False
     if form.validate_on_submit():
       flash('Roster Flash: ' + form.p1.data)
       return redirect('/optimize')
-    return render_template("home.html", title = 'Home', form = form)
+    return render_template("home.html", title = 'Home', form = form, m=m)
 
 @app.route('/algorithm')
 def algorithm():
@@ -53,11 +54,18 @@ def validation():
 @app.route('/optimize', methods = ['POST'])
 def optimize():
   session['form'] = request.form
+    
   return redirect(url_for('results'))
     
 @app.route('/results')
 def results():
   form = session['form']
+  
+  if 'week' not in form:
+    form = RosterForm()
+    m = True
+    return render_template("home.html", title = 'Home', form = form, m=m)
+    
   week = get_week(form) #check if week is selected
   plyrs = plyr_names(form) #check if each name is valid
   predictions = make_predictions(plyrs, week)
@@ -66,8 +74,8 @@ def results():
   wr = []
   rb = []
   te = []
-  kc = []
-  
+  pk = []
+  d = []  
   if 'QB' in predictions:
     qb.append(predictions['QB'])
   if 'RB' in predictions:
@@ -77,10 +85,9 @@ def results():
   if 'TE' in predictions:
     te.append(predictions['TE'])
   if 'K' in predictions:
-    kc.append(predictions['K'])
+    pk.append(predictions['K'])
   
-    
-  return render_template("results.html", form=form, qb=qb, wr=wr, rb=rb, te=te, kc=kc)
+  return render_template("results.html", form=form, qb=qb, wr=wr, rb=rb, te=te, pk=pk, d=d)
   
   
   
