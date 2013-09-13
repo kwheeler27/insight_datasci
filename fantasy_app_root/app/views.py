@@ -10,7 +10,7 @@ def players():
   con = mdb.connect(host='localhost', db='fantasy_lineups', user='root')
   cur = con.cursor()
   #test
-  command = "SELECT name, position FROM players;"
+  command = "SELECT DISTINCT(name), position FROM players;"
   output = cur.execute(command)
   rows = cur.fetchall()
 
@@ -19,11 +19,10 @@ def players():
     display_name = row[0]
     pos = row[1]
     n = display_name.replace('-',' ')
-    
     temparr.append({'value':'%s' % n.title(),
                    'tokens':n.split(' '),
-                   'name':n,
-                   'position':row[1]})
+                   'datum':{'value':'%s' % n.title(),'position':row[1]}, 'tokens':n.split(' ')})
+                   
   cur.close()
   con.close()
   return json.dumps(temparr)

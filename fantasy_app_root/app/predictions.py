@@ -203,7 +203,7 @@ def predict(cur, plyr_id, game_plyrs):
   nb_norm_prob = normalize_probs(nb_clf.predict_proba(test_X)[0])
   avgs = [1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 25.5, 28.5, 31.5]
   ev = expected_val(nb_norm_prob, avgs) 
-  return round(ev, 2)
+  return round(ev, 1)
   
 def make_predictions(plyrs, week_num):
   db = connect()[0]
@@ -225,6 +225,7 @@ def make_predictions(plyrs, week_num):
     plyr_dict[name] = (pts, img_url)
     if pos in predictions:
       predictions[pos].append(plyr_dict)
+      predictions[pos].sort(reverse=True, key=lambda elem:elem.values()[0] )
     else:
       predictions[pos] = []
       predictions[pos].append(plyr_dict)

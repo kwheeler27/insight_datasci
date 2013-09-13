@@ -16,7 +16,7 @@
      
     <!-- Autocomplete widget -->
     <script src="/static/js/typeahead.js"></script>
-    <script src="/static/js/hogan-2.0.0.min.js"></script>
+    <script src="/static/js/hogan-2.0.0.js"></script> 
     
     <script>
       $(document).ready(function() {
@@ -29,7 +29,13 @@
             };
           }
         };
-        
+       
+        $('.thumbnail').hover(function(){
+          $(this).css("border-color", "#357ebd");
+          }, function(){
+          $(this).css("border-color", "#ddd");
+        });
+      
         $('.typeahead.input-sm').siblings('input.tt-hint').addClass('hint-small');
         $('.typeahead.input-lg').siblings('input.tt-hint').addClass('hint-large');
         
@@ -40,15 +46,23 @@
           
           
           $( ".query" ).typeahead({
-            prefetch: "{{ url_for('players') }}"
+            prefetch: "{{ url_for('players') }}",
+            limit: 10
           });      
+        });
+        
+        
+        
+        $('#btn-optimize').click(function() {
+	        $(".loader").show();
         });
       }); 
       
-      
     </script>
+    
   </head>
   <body>
+    <div class="loader" style="display: none;"></div>
     <div id="wrap">
     <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top">
