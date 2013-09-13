@@ -62,5 +62,30 @@ def results():
   week = get_week(form) #check if week is selected
   plyrs = plyr_names(form) #check if each name is valid
   predictions = make_predictions(plyrs, week)
-  print predictions
-  return render_template("results.html", form=form)
+  
+  qb = []
+  wr = []
+  rb = []
+  te = []
+  k = []
+  
+  if 'QB' in predictions:
+    qb.append(predictions['QB'])
+  if 'RB' in predictions:
+    rb.append(predictions['RB'])
+  if 'WR' in predictions:
+    wr.append(predictions['WR'])
+  if 'TE' in predictions:
+    te.append(predictions['TE'])
+  if 'K' in predictions:
+    k.append(predictions['K'])
+  
+    
+  return render_template("results.html", form=form, qb=qb, wr=wr, rb=rb, te=te, k=k)
+  
+  
+  
+  
+  
+  
+  

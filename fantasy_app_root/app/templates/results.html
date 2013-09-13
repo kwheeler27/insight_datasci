@@ -13,23 +13,27 @@
 
 {% block content %}
 {{ form['week'] }}
-{% for elem in form.values() %}
-  <div>{{ elem }}</div>
-{% endfor %}
 
-{% for elem in form %}
-  <div>{{ elem }}</div>
-{% endfor %}
+
 
 <div class="row">
   <h2>QB's</h2>
-  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 ">
-    <a href="#" class="thumbnail">
-      <img src="http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2580.png&w=350&h=254">
-    </a>
-    <div>Drew Brees</div>
-    <div>Projected Score: 24.2</div>
-  </div>
+  
+  {% for elem in qb %}
+    {% for dict in elem %}
+      {% for k, v in dict.items() %}
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 ">
+        <div>key: {{ k }}, val: {{ v }}</div>
+        <a href="#" class="thumbnail">
+          <img src={{ v[1] }}>
+        </a>
+        <div>{{ k }}</div>
+        <div>Projected Score: {{ v[0] }}</div>
+      </div>
+      {% endfor %}
+    {% endfor %}
+  {% endfor %}
+  
   
   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
     <a href="#" class="thumbnail">
