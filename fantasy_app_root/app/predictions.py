@@ -17,7 +17,7 @@ def display_name(name):
 
 #returns an int representing the week number selected
 def get_week(form):
-  return int(form['week'][1])
+  return int(form['week'][1:])
 
 #returns an array of the players contained in the roster form
 def plyr_names(form):
@@ -42,8 +42,11 @@ def get_opp_team(cur, plyr_team, week):
   command = "SELECT away FROM schedules WHERE home = '%s' AND week = '%s' LIMIT 1;" % (plyr_team, week)
   cur.execute(command)
   rows = cur.fetchall()
-  opp_team = rows[0][0]
-  return opp_team
+  if len(rows) > 0:
+    opp_team = rows[0][0]
+    return opp_team
+  else:
+    return []
 
 #returns the list of players on a given team
 def team_roster(cur, team):
@@ -59,10 +62,12 @@ def team_roster(cur, team):
 def all_players(cur, plyr_name, week):
   home_team = get_team(cur, plyr_name)
   away_team = get_opp_team(cur, home_team, week)
+  if len(away_team) == 0:
+    return []
   home_roster = team_roster(cur, home_team)
   away_roster = team_roster(cur, away_team)
   #print "HOME ROSTER: ", home_roster
-  #print "OPP ROSTER: ", away_roster
+  print "OPP ROSTER: ", away_roster
   all_plyrs = home_roster + away_roster
   #print "TOT ROSTER: ",all_plyrs
   return all_plyrs
@@ -215,12 +220,18 @@ def make_predictions(plyrs, week_num):
     pos = plyr_position(cur, disp_name)
     id = player_id(cur, disp_name)
     name = disp_name.replace('-',' ').title()
-    print name, pos
+    img_url = "http://s3-us-west-2.amazonaws.com/nflheadshots/%s-%s.png" % (id, disp_name)
+    
+    print name, pos, week_num
     
     game_plyrs = all_players(cur, disp_name, week_num)  
-    plyr_ids = convert_names_to_ids(cur, game_plyrs)
-    img_url = "http://s3-us-west-2.amazonaws.com/nflheadshots/%s-%s.png" % (id, disp_name)
-    pts = predict(cur, id, plyr_ids)
+    plyr_ids = []
+    if len(game_plyrs) != 0:
+      plyr_ids = convert_names_to_ids(cur, game_plyrs)
+    
+    pts = 0
+    if len(plyr_ids) != 0:
+      pts = predict(cur, id, plyr_ids)
     plyr_dict = {}
     plyr_dict[name] = (pts, img_url)
     
