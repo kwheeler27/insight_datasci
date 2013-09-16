@@ -169,6 +169,26 @@ input.tt-hint {
 
 .media-object {
   height: 64px;
-  width: 64px;
+  width: 88px;
+}
+
+.progress {
+  margin: 0px;
+}
+
+.prj-score {
+  font-style:italic;
+}
+
+.pos-rank {
+  font-style:italic;
+}
+
+.pop-results {
+  font-size: 15px;
+}
+
+.pop-rank {
+  font-size:12px;
 }
 
