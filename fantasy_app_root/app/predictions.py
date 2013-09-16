@@ -67,7 +67,7 @@ def all_players(cur, plyr_name, week):
   home_roster = team_roster(cur, home_team)
   away_roster = team_roster(cur, away_team)
   #print "HOME ROSTER: ", home_roster
-  print "OPP ROSTER: ", away_roster
+  #print "OPP ROSTER: ", away_roster
   all_plyrs = home_roster + away_roster
   #print "TOT ROSTER: ",all_plyrs
   return all_plyrs
@@ -168,6 +168,7 @@ def training_output_vector(cur, games, plyr_id):
     cur.execute(command)
     rows = cur.fetchall()
     arr.append(rows[0][0])
+  print "Y - before discretize", arr
   y = discretize(arr)
   return y
 
@@ -190,15 +191,14 @@ def predict(cur, plyr_id, game_plyrs):
   zeros = np.zeros((m_rows, n_cols)) #2darr - used to initialize DF
   X = pd.DataFrame(zeros, index=games, columns=all_plyrs) #dataframe
   populate_training_set(cur, X, games)
-  
+  print "X: ", X
   #creates vector of known output values
   Y = training_output_vector(cur, games, plyr_id)
-  
+  print "Y: ", len(Y), Y
   test_zeros = np.zeros((1, n_cols)) #2darr - used to initialize DF
   test_X = pd.DataFrame(zeros, columns=all_plyrs) #dataframe
 
   update_training_matrix(game_plyrs, 0, test_X)
-  
   
   #run Bernoulli NB Classifier
   nb_clf = BernoulliNB()
@@ -207,6 +207,8 @@ def predict(cur, plyr_id, game_plyrs):
   
   nb_norm_prob = normalize_probs(nb_clf.predict_proba(test_X)[0])
   avgs = [1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 25.5, 28.5, 31.5]
+  print nb_norm_prob
+  print avgs
   ev = expected_val(nb_norm_prob, avgs) 
   return round(ev, 1)
   

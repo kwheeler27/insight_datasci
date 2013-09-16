@@ -31,7 +31,7 @@
         };
        
         $('.thumbnail').hover(function(){
-          $(this).css("border-color", "#357ebd");
+          $(this).css("border-color", "#138ce1");
           }, function(){
           $(this).css("border-color", "#ddd");
         });
@@ -42,9 +42,6 @@
         var test = ['rest', 'huh', 'what', 'aaaa', 'alex', 'aaron'];
         
         $.getJSON("{{ url_for('players') }}", function(data) {
-
-          
-          
           $( ".query" ).typeahead({
             prefetch: "{{ url_for('players') }}",
             limit: 10
@@ -59,20 +56,13 @@
           var val = $(this).attr("aria-valuenow") / 3.3;
 
           var status = "-success";
-          
-          if (val < 23.5 && val >= 18) {
-            status = "-info";
-          } else if (val < 18 && val >= 12) {
-            status = "";
-          } else if (val < 12 && val >= 6) {
-            status = "-warning";
-          } else if (val < 6) {
-            status = "-danger";
-          }
+
           
           var addedClass = "progress-bar" + status;
           return addedClass;
         });
+        
+        $("input.tt-hint").attr('id', 'test-op');
         
         
       }); 
@@ -81,6 +71,8 @@
     
   </head>
   <body>
+
+    {% block img %}{% endblock %}
     <div class="loader" style="display: none;"></div>
     <div id="wrap">
     <!-- Fixed navbar -->
@@ -92,7 +84,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Optimal Lineups</a>
+          <a class="navbar-brand" id="brand" href="/home">Optimal Lineups</a>
         </div>
         {% block nav %}{% endblock %}
       </div>
@@ -100,7 +92,7 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul>
-    <div>TEST</div>
+
     {% for message in messages %}
       <li>{{ message }} </li>
     {% endfor %}
@@ -109,7 +101,8 @@
     {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
-    </div>
+    </div><!-- wrap -->
+    
     <div id="footer">
       <div class="container">
       <p>&copy; Insight Data Science 2013</p>

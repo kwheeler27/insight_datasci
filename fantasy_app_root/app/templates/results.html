@@ -3,27 +3,33 @@
 {% block nav %}
 <div class="navbar-collapse collapse navbar-right bs-example">
   <ul class="nav navbar-nav nav-pills">
-    <li><a href="/home">Home</a></li>
-    <li><a href="/slides">Slides</a></li>
-    <li><a href="/algorithm">Algorithm</a></li>
-    <li><a href="/validation">Validation</a></li>
+    <li><a href="/slides" id="top-link1">Slides</a></li>
+    <li><a href="/algorithm" id="top-link2">Algorithm</a></li>
+    <li><a href="/validation" id="top-link3">Validation</a></li>
   </ul>
 </div><!--/.nav-collapse -->
 {% endblock %}
 
 {% block content %}
 
+<div class="bg">
+  <img src="static/img/lights_image.png" alt="">
+</div>
+
+
+
 <div class="row">
+<div class="container">
 <!--QBs-->  
 
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
-  <h2 style="text-align: center">QB's</h2>
+  <h2 class="result-text" style="text-align: center">QB</h2>
   {% if not qb %}
   <div class="thumbnail">
-    <h4 style="text-align: center">No QB's selected</h4>
+    <h4 style="text-align: center">None selected</h4>
     <img src='/static/img/placeholder.png'>
     
-    <div class="caption" style="text-align: center">Check out predicted rankings</div>
+    <div class="caption" style="text-align: center">Predicted rankings</div>
   </div> <!--/.thumbnail-->   
   {% endif %}
   
@@ -44,17 +50,23 @@
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        More QBs <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu qb-ul" role="menu">
-      </ul>
+      <div class="btn-group-justified">
+      <div>
+        <a href="#" type="button" class="btn btn-default" data-toggle="popover">
+          Best of the rest <span class="caret"></span>
+        </a>
+        <div class="popover fade top in">
+          <div class="popover-content">
+            <ul class="media-list qb-ul">
+            </ul>
+          </div>
+        </div>
+      </div>
       </div> <!--btn-group-->
       {% else %}   
       {% for k, v in dict.items() %}
         <script>
-        $('.qb-ul').append("<li role='presentation'><div class='thumbnail'><img src={{ v[1] }}><h4 style='text-align: center'>{{ k }}</h4><div class='caption'><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score'>Projected Score: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</div></div></div></li>");
+        $('.qb-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading popover-title'>{{ k }}</h4><p>Projected Score: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</p><p>Rank: </p><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
         </script>
       {% endfor %}
       {% endif %}   
@@ -66,13 +78,13 @@
 <!--RBs-->
 
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
-  <h2 style="text-align: center">RB's</h2>
+  <h2 class="result-text" style="text-align: center">RB</h2>
   {% if not rb %}
   <div class="thumbnail">
-    <h4 style="text-align: center">No RB's selected</h4>
+    <h4 style="text-align: center">None selected</h4>
     <img src='/static/img/placeholder.png'>
     
-    <div class="caption" style="text-align: center">Check out predicted rankings</div>
+    <div class="caption" style="text-align: center">Predicted rankings</div>
   </div> <!--/.thumbnail-->   
   {% endif %}
   
@@ -93,12 +105,14 @@
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        More RBs <span class="caret"></span>
-        </button>
+      <div class="btn-group-justified">
+      <div>
+      <a href="/" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Best of the rest <span class="caret"></span>
+      </a>
         <ul class="dropdown-menu rb-ul" role="menu">
         </ul>
+      </div>
       </div> <!--btn-group-->
       {% else %}   
       {% for k, v in dict.items() %}
@@ -114,13 +128,13 @@
 <!--WRs-->
 
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
-  <h2 style="text-align: center">WR's</h2>
+  <h2 class="result-text" style="text-align: center">WR</h2>
   {% if not wr %}
   <div class="thumbnail">
-    <h4 style="text-align: center">No WR's selected</h4>
+    <h4 style="text-align: center">None selected</h4>
     <img src='/static/img/placeholder.png'>
     
-    <div class="caption" style="text-align: center">Check out predicted rankings</div>
+    <div class="caption" style="text-align: center">Predicted rankings</div>
   </div> <!--/.thumbnail-->   
   {% endif %}
   {% for elem in wr %}  
@@ -140,12 +154,14 @@
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        More WRs <span class="caret"></span>
-      </button>
+      <div class="btn-group-justified">
+      <div>
+      <a href="/" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Best of the rest <span class="caret"></span>
+      </a>
       <ul class="dropdown-menu wr-ul" role="menu">
       </ul>
+      </div>
       </div> <!--btn-group-->
       {% else %}   
       {% for k, v in dict.items() %}
@@ -161,13 +177,13 @@
 <!--TEs-->
 
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
-  <h2 style="text-align: center">TE's</h2>
+  <h2 class="result-text" style="text-align: center">TE</h2>
   {% if not te %}
   <div class="thumbnail">
-    <h4 style="text-align: center">No TE's selected</h4>
+    <h4 style="text-align: center">None selected</h4>
     <img src='/static/img/placeholder.png'>
     
-    <div class="caption" style="text-align: center">Check out predicted rankings</div>
+    <div class="caption" style="text-align: center">Predicted rankings</div>
   </div> <!--/.thumbnail-->   
   {% endif %}
   {% for elem in te %}  
@@ -187,12 +203,14 @@
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        More TEs <span class="caret"></span>
-      </button>
+      <div class="btn-group-justified">
+      <div>
+      <a href="/" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Best of the rest <span class="caret"></span>
+      </a>
       <ul class="dropdown-menu te-ul" role="menu">
       </ul>
+      </div>
       </div> <!--btn-group-->
       {% else %}   
       {% for k, v in dict.items() %}
@@ -208,13 +226,13 @@
 <!--K-->
 
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
-  <h2 style="text-align: center">K's</h2>
+  <h2 class="result-text" style="text-align: center">Kicker</h2>
   {% if not pk %}
   <div class="thumbnail">
-    <h4 style="text-align: center">No PK's selected</h4>
+    <h4 style="text-align: center">None selected</h4>
     <img src='/static/img/placeholder.png'>
     
-    <div class="caption" style="text-align: center">Check out predicted rankings</div>
+    <div class="caption" style="text-align: center">Predicted rankings</div>
   </div> <!--/.thumbnail-->   
   {% endif %}
   {% for elem in pk %}  
@@ -236,7 +254,7 @@
       {% endfor %}
       <div class="btn-group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        More Ks <span class="caret"></span>
+        Best of the rest <span class="caret"></span>
       </button>
       <ul class="dropdown-menu pk-ul" role="menu">
       </ul>
@@ -255,13 +273,13 @@
 <!--DEF-->
 
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
-  <h2 style="text-align: center">D's</h2>
+  <h2 class="result-text" style="text-align: center">Defense</h2>
   {% if not d %}
   <div class="thumbnail">
-    <h4 style="text-align: center">No Def's selected </h4>
+    <h4 style="text-align: center">None selected </h4>
     <img src='/static/img/placeholder.png'>
     
-    <div class="caption" style="text-align: center">Check out predicted rankings</div>
+    <div class="caption" style="text-align: center">Predicted rankings</div>
   </div> <!--/.thumbnail-->   
   {% endif %}
   {% for elem in d %}  
@@ -281,12 +299,14 @@
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        More Ds <span class="caret"></span>
-      </button>
+      <div class="btn-group-justified">
+      <div>
+      <a href="/" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        More QBs <span class="caret"></span>
+      </a>
       <ul class="dropdown-menu d-ul" role="menu">
       </ul>
+      </div>
       </div> <!--btn-group-->
       {% else %}   
       {% for k, v in dict.items() %}
@@ -299,6 +319,7 @@
   {% endfor %}
   </div> <!--col-->
   
+</div>
 </div>
 
 <div class="row">

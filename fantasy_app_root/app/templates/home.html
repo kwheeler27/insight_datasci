@@ -1,40 +1,65 @@
 {% extends "base.html" %}
+
+{% block img %}
+
+{% endblock %}
+
 {% block nav %}
+
 <div class="navbar-collapse collapse navbar-right bs-example">
   <ul class="nav navbar-nav nav-pills">
-    <li class="active"><a href="/home">Home</a></li>
-    <li><a href="/slides">Slides</a></li>
-    <li><a href="/algorithm">Algorithm</a></li>
-    <li><a href="/validation">Validation</a></li>
+    <li><a href="/slides" id="top-link1">Slides</a></li>
+    <li><a href="/algorithm" id="top-link2">Algorithm</a></li>
+    <li><a href="/validation" id="top-link3">Validation</a></li>
   </ul>
 </div><!--/.nav-collapse -->
 {% endblock %}
 {% block content %}
 
+<div class="bg">
+  <img src="static/img/footballimage.png" alt="">
+</div>
 
 {% if m %}
 <div class="alert alert-danger"><strong>Oh snap!</strong> Please select a week.</div>
 {% endif %}
 
 <center>
+  <div class="container jmptrn-par">
+<div class="jumbotron">
 <form action="{{ url_for('optimize') }}" method="post" name="roster" role="form" id="roster-form">
-<div class="row">
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">    
+
+<div class="row jmptrn-child">
+  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">    
     <h2>Step 1:</h2>
     <h3>Enter your roster:</h3>
-    <div class="form-container">
+    <div class="form-container" style="margin-top: 50px;">
     {{form.hidden_tag()}}    
-        {% for entry in form %}<br> 
-          {{entry(class_='query form-control', placeholder=entry.label.text)}}<br>
-        {% endfor %}<br>    
+        {% for entry in form %}
+          {% if loop.index > 5 %}
+            {{entry(class_='query form-control extra-field', placeholder=entry.label.text)}}
+          {% elif loop.index > 1 %} 
+            {{entry(class_='query form-control', placeholder=entry.label.text)}}
+          {% else %}
+          {% endif %}
+        {% endfor %}<br>
+        
+        <!-- div dropdown -->
+        <ul class="nav nav-pills nav-justified" style="display: none;">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              Dropdown <span class="caret"></span>
+            </a>
+          </li>
+        </ul>
+
         {% for error in form.errors %}
         <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
     </div>   
-  </div>
+  </div> 
+  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
   
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <div class="row">
       <h2>Step 2:</h2>
       <h3>Select Week:</h3>
       <div class="week-box">  
@@ -57,7 +82,6 @@
         <label class="btn btn-primary">
           <input type="radio" name="week" value="w6"> 06
         </label>
-        <div></div>
         <label class="btn btn-primary">
           <input type="radio" name="week" value="w7"> 07
         </label>
@@ -99,15 +123,18 @@
       </div>
       
     </div>
-    <div class="row">
+  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
       <h2>Step 3:</h2>
       <h3>Optimize:</h3>
-      <button id="btn-optimize" data-loading-text="Optimizing..." class="btn btn-large btn-primary" type="submit">GO!</button>
+      <button id="btn-optimize" data-loading-text="Optimizing..." class="btn btn-large btn-primary" type="submit"><strong>GO!</strong></button>
     </div>
-  </div>
+    
 </div>
-
 </form>
+</div><!--jumbotron-->
+</div>
 </center>
+
+<div class="spacer"></div>
 {% endblock %}
 

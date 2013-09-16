@@ -1,8 +1,25 @@
+
 body { 
   padding-top: 90px; 
   margin-left: 15px;
   margin-right: 15px;
 
+}
+
+.bg {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 200%; 
+  height: 200%;
+}
+.bg img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  margin: auto; 
+  width: 50%;
+  height: 50%;
 }
 
 .outer-row {
@@ -11,10 +28,10 @@ body {
 }
 
 .navbar {
-  background-color: white;
-  padding: 10px 0px;
-  border-bottom: 1px solid #777777;
-  color: #0276FD;
+  background-color: #000;
+  padding: 0px 0px;
+  border-bottom: 1px solid #000;
+  color: #138ce1;
 }
 
 #footer {
@@ -25,6 +42,7 @@ body {
 form {
   margin: 0px 15px;
 }
+
 
 .week-box div .btn-primary {
   margin: 4px 0px;
@@ -37,21 +55,28 @@ form {
 
 #btn-optimize {
   padding: 20px 30px;
-  margin: 25px 0px;
+  margin-top: 100px;
 
 }
 
 .btn-primary {
-  color: #428bca;
-  background-color: #fff;
+  color: #138ce1;
+  border-color: #138ce1;
+  background-color: transparent;
+}
+
+.btn-primary:hover {
+  color: white;
+  border-color: #138ce1;
+  background-color: #138ce1;
 }
 
 .query {
-  border-color: #357ebd;
+  border-color: #138ce1;
 }
 
 .form-container {
-  margin-top: -20px;
+  margin-top: 0px;
 }
 
 .loader {
@@ -65,14 +90,85 @@ form {
 }
 
 .btn-group {
-  width: 100%;
-}
-
-.dropdown-menu {
 
 }
 
+.navbar-default .navbar-nav>.active>a, 
+.navbar-default .navbar-nav>.active>a:hover, 
+.navbar-default .navbar-nav>.active>a:focus {
+  background-color: black;
 
+  color: white;
+}
 
+.nav-justified {
+  width: 166px;
+}
 
+.jmptrn-par {
+  position: relative;
+}
+
+.jumbotron {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5); 
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f404040, endColorstr=#7f404040);
+}
+
+.jmptrn-child {
+  color: #138ce1;
+}
+
+.spacer {
+  margin: 20px 0px;
+}
+
+input.tt-hint {
+  color: white;
+}
+
+.tt-hint {
+  opacity: 0;
+}
+.btn-group-lg label{
+  background-color: transparent;
+}
+
+#brand {
+  color: white;
+}
+
+#top-link1, #top-link2, #top-link3{
+  color: #ccc;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #fff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #fff;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #fff;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #fff;
+}
+
+.tt-query:focus {
+  color: white;
+}
+
+.tt-query, select, textarea {
+  color: white;  
+}
+
+.result-text {
+  color: white;
+}
+
+.media-object {
+  height: 64px;
+  width: 64px;
+}
 
