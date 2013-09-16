@@ -17,6 +17,8 @@
     <!-- Autocomplete widget -->
     <script src="/static/js/typeahead.js"></script>
     <script src="/static/js/hogan-2.0.0.js"></script> 
+    <script src="/static/js/popover.js"></script>
+    <script src="/static/js/tooltip.js"></script>
     
     <script>
       $(document).ready(function() {
@@ -54,16 +56,16 @@
         
         $( ".progress-bar" ).addClass(function( index, currentClass ) {
           var val = $(this).attr("aria-valuenow") / 3.3;
-
           var status = "-success";
-
-          
           var addedClass = "progress-bar" + status;
           return addedClass;
         });
         
-        $("input.tt-hint").attr('id', 'test-op');
-        
+        var test = $(".media-list");
+        $("#pop").popover({
+          content: test,
+          html: 'true' 
+        });
         
       }); 
       

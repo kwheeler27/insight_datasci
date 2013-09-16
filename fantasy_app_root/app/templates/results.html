@@ -50,19 +50,17 @@
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
-      <div class="btn-group-justified">
-      <div>
-        <a href="#" type="button" class="btn btn-default" data-toggle="popover">
-          Best of the rest <span class="caret"></span>
-        </a>
+      <button rel="popover" id="pop" class="btn-group-justified" data-container="body" data-toggle="popover" data-placement="top">More</button>
+      
         <div class="popover fade top in">
+          <div class="arrow">
+          </div>
           <div class="popover-content">
             <ul class="media-list qb-ul">
             </ul>
           </div>
         </div>
-      </div>
-      </div> <!--btn-group-->
+
       {% else %}   
       {% for k, v in dict.items() %}
         <script>
