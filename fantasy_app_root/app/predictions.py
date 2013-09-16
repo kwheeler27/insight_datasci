@@ -209,7 +209,7 @@ def predict(cur, plyr_id, game_plyrs):
   avgs = [1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 25.5, 28.5, 31.5]
   print nb_norm_prob
   print avgs
-  ev = expected_val(nb_norm_prob, avgs) 
+  ev = expected_val(nb_norm_prob, avgs) #can also calc dot product
   return round(ev, 1)
   
 def make_predictions(plyrs, week_num):
