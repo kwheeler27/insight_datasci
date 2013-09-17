@@ -32,7 +32,7 @@ def get_stat_category(str):
   else:
     return 'NO MATCH'
 
-def get_plyr_data(cols, cat):
+def get_plyr_data(cols, cat, row_num):
   data = []
   if len(cols) == 0:
     return []
@@ -43,108 +43,51 @@ def get_plyr_data(cols, cat):
     data.append(plyr_id.group(1))
     data.append(plyr_id.group(2))
     
-  if cat == 'passing':
-    pass_yds = int(cols[2].text.encode('ascii', 'ignore'))
-    pass_tds = int(cols[4].text.encode('ascii', 'ignore'))
-    pass_ints = int(cols[5].text.encode('ascii', 'ignore'))
-    data.extend([pass_yds, pass_tds, pass_ints, 0,0,0,0,0,0,0,0,0])
-  elif cat == 'rushing':
-    rush_yds = int(cols[2].text.encode('ascii', 'ignore'))
-    rush_tds = int(cols[4].text.encode('ascii', 'ignore'))
-    data.extend([0, 0, 0, rush_yds, rush_tds, 0, 0, 0, 0, 0, 0, 0])
-  elif cat == 'receiving':
-    rec_yds = int(cols[2].text.encode('ascii', 'ignore'))
-    rec_tds = int(cols[4].text.encode('ascii', 'ignore'))
-    data.extend([0, 0, 0, 0, 0, rec_yds, rec_tds, 0, 0, 0, 0, 0])
-  elif cat == 'fumbles':
-    fum_lost = int(cols[2].text.encode('ascii', 'ignore'))
-    data.extend([0, 0, 0, 0, 0, 0, 0, fum_lost, 0, 0, 0, 0])
-  elif cat == 'interceptions':
-    ints = int(cols[1].text.encode('ascii', 'ignore'))
-    data.extend([0, 0, 0, 0, 0, 0, 0, 0, ints, 0, 0, 0])
-  elif cat == 'defensive':
-    sacks = float(cols[3].text.encode('ascii', 'ignore'))
-    def_tds = int(cols[7].text.encode('ascii', 'ignore'))
-    data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, sacks, def_tds, 0])
-  elif cat == 'returns':
-    def_tds = 0
-    if len(cols) < 6:
-      def_tds = int(cols[4].text.encode('ascii', 'ignore'))
-      if def_tds > 2:
-        def_tds = 0
+    if cat == 'passing':
+      if row_num == 1:
+        data.append(1)
+      else:
+        data.append(0)
+    elif cat == 'rushing':
+      if row_num == 1:
+        data.append(1)
+      else:
+        data.append(0)
+    elif cat == 'receiving':
+      if row_num < 5:
+        data.append(1)
+      else:
+        data.append(0)
+    elif cat == 'kicking':
+      if row_num == 1:
+        data.append(1)
+      else:
+        data.append(0)
     else:
-      def_tds = int(cols[5].text.encode('ascii', 'ignore'))
-    data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, def_tds, 0])
-  elif cat == 'kicking':
-    kick_pts = 0
-    if len(cols) < 6:
-      kick_pts = int(cols[4].text.encode('ascii', 'ignore'))
-    else:
-      kick_pts = int(cols[5].text.encode('ascii', 'ignore'))
-    data.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, kick_pts])
+      data.append(0)
   return data
 
-def fantasy_pts(arr):
-  pts = 0
-  pts += float(arr[0]) / 25.0  #pass yds
-  pts += float(arr[1]) * 4     #pass tds
-  pts -= float(arr[2])         #pass ints
-  pts += float(arr[3]) / 10.0  #rush yds
-  pts += float(arr[4]) * 6     #rush tds
-  pts += float(arr[5]) / 10.0  #rec yds
-  pts += float(arr[6]) * 6     #rec tds
-  pts -= float(arr[7]) * 2     #'fum_lost'
-  pts += float(arr[8]) * 2     #'interceptions', 
-  pts += float(arr[9])         #'sacks'
-  pts += float(arr[10]) * 6     #'def_tds'
-  pts += float(arr[11])        #'kick_pts'
-  return pts
 
-def calc_scores(arr2d):
-  print "CALCULATING SCORES..."
-  scores = [['game_id','plyr_id', 'name', 'score']]
-  for row in arr2d:
-    arr = [row[0], row[1], row[2]]
-    if arr[1] != 0:
-      arr.append(fantasy_pts(row[3:]))
-      print arr
-      scores.append(arr)
-  plyr_pts = np.array(scores)
-  return plyr_pts
+def remove_duplicates(darr):
+  new_arr = []
+  #[['game_id','plyr_id', 'name', 'is_starter'],['game_id','plyr_id', 'name', 'is_starter']]
+  for i in xrange(darr.shape[0]):
+    game_id_i = darr[i][0]
+    plyr_id_i = darr[i][1]
+    is_starter_i = darr[i][3]   
+    unique = True
+    for j in range(len(new_arr)):
+      game_id_j = new_arr[j][0]
+      plyr_id_j = new_arr[j][1]
+      is_starter_j = new_arr[j][3]
+      if game_id_j == game_id_i and plyr_id_j == plyr_id_i:
+        if is_starter_j == 1 and is_starter_i == 0:
+          new_arr[j][3] = 1
+        unique = False
+    if unique:
+      new_arr.append(darr[i])
+  return np.array(new_arr)
 
-def consolidate_scores(arr2d):
-  print "CONSOLIDATING SCORES..."
-  new_scores = []
-  col1 = arr2d[1:,0]
-  col2 = arr2d[1:,1]
-  col3 = arr2d[1:,2]
-  col4 = arr2d[1:,3]
-  new_arr2d = arr2d[1:,:]
-  col_temp = []
-  for i in xrange(col1.shape[0]):
-    col_temp.append(string.join(col1[i], col2[i]))
-  uni_col_temp = np.unique(col_temp)
-  
-  result = []
-  for i in xrange(uni_col_temp.shape[0]):
-    uni_id = uni_col_temp[i]
-    tot_pts = 0
-    elems = []
-    for j in xrange(col1.shape[0]):
-      game = col1[j]
-      plyr = col2[j]
-      name = col3[j]
-      test = string.join(game, plyr)
-      if test == uni_id:
-        if len(elems) == 0:
-          elems.append(game)
-          elems.append(plyr)
-          elems.append(name)
-        tot_pts += float(col4[j])
-    elems.append(tot_pts)
-    result.append(elems)
-  return np.array(result) 
-  
 def main():
   #read in game_ids
   games_data = pd.read_csv('games-data.csv')
@@ -162,22 +105,27 @@ def main():
     boxscore_res = requests.get(boxscore_url)
     soup = BeautifulSoup(boxscore_res.content)
     stat_tables = soup.find_all('table', class_="mod-data")
+    plyrs = []
     for table in stat_tables:
       hdr = table.find('th').text.encode('ascii', 'ignore')
       stat_category = get_stat_category(hdr)
+      row_num = 1
       for row in table.find_all('tr', class_=is_stat_row):
         cols = row.find_all('td')
-        plyr_data = get_plyr_data(cols, stat_category)
-        if stat_category == 'NO MATCH' and len(plyr_data) != 0:
-          plyr_data.extend([0,0,0,0,0,0,0,0,0,0,0,0])       
+        plyr_data = get_plyr_data(cols, stat_category, row_num)
+        #if stat_category == 'NO MATCH' and len(plyr_data) != 0:
+         # plyr_data.extend([0])
+               
         if len(plyr_data) != 0:
           plyr_data.insert(0, game)
           game_data.append(plyr_data)
-  game_stats = np.array(game_data)
-  fantasy_scores = calc_scores(game_stats)
-  consolidated_scores = consolidate_scores(fantasy_scores)
-  fantasy_frame = pd.DataFrame(consolidated_scores, columns=['game_id','plyr_id', 'name', 'fntsy_pts'])
-  fantasy_frame.to_csv('fantasy_scores.csv')
+  
+  starter_data = np.array(game_data)
+  print "BEFORE: ", starter_data
+  uni_starter_data = remove_duplicates(starter_data)
+  print "AFTER: ", uni_starter_data
+  starter_frame = pd.DataFrame(uni_starter_data, columns=['game_id','plyr_id', 'name', 'is_starter'])
+  starter_frame.to_csv('starter_data.csv')
   
 if __name__ == '__main__':
   main()
