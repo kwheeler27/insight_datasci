@@ -12,19 +12,19 @@ def is_game_row(c):
   return c == 'oddrow' or c == 'evenrow'
 
 def main():
-  wfile = open("espn-proj2.csv", "wb")
-  field_names = ['plyr_id', 'proj_pts','week']
+  wfile = open("espn-actual.csv", "wb")
+  field_names = ['plyr_id', 'tot_pts','week']
   writer = csv.writer(wfile)
   writer.writerow(field_names)
-  for w in range(1,4):
-    for pg in range(0, 320, 40): 
-      proj_url = "http://games.espn.go.com/ffl/tools/projections?&scoringPeriodId=%s&seasonId=2013&startIndex=%s" % (w, pg)
-      proj_res = requests.get(proj_url)
-      soup = BeautifulSoup(proj_res.content)
+  for w in range(1,3):
+    for pg in range(0, 300, 50): 
+      pts_url = "http://games.espn.go.com/ffl/leaders?&scoringPeriodId=%s&seasonId=2013&startIndex=%s" % (w, pg)
+      pts_res = requests.get(pts_url)
+      soup = BeautifulSoup(pts_res.content)
       for tr in soup.find_all('tr', class_="pncPlayerRow"):
         id_match = re.search(r'plyr(\d+)',tr['id'])
         id = int(id_match.group(1))
-        td = tr.find('td', class_="playertableStat appliedPoints sortedCell")
+        td = tr.find('td', class_="playertableStat appliedPoints appliedPointsProGameFinal")
         projpts = td.contents[0].encode('ascii', 'ignore')
         if projpts == '--':
           projpts = 0

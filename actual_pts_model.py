@@ -13,13 +13,13 @@ def connect():
   return db, db.cursor()
   
 def main():
-  field_names = ['plyr_id', 'proj_pts','week']
-  infile = "./espn-proj2.csv"
+  field_names = ['plyr_id', 'tot_pts','week']
+  infile = "./espn-actual.csv"
   db = connect()[0]
   cur = connect()[1]
   cur.execute("USE fantasy_lineups;")
   df = pd.read_csv(infile)
-  sql.write_frame(df, con=db, name='espn_projections', if_exists='replace', flavor='mysql')
+  sql.write_frame(df, con=db, name='actual_fantasy_pts', if_exists='replace', flavor='mysql')
    
   cur.close()
   del cur

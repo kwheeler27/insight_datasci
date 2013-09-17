@@ -218,20 +218,22 @@ def make_predictions(plyrs, week_num):
   predictions = {}
   
   for p in plyrs:
+    #gets player name, id, and img url
     disp_name = display_name(p)
     img_name = disp_name.replace('.','')
     pos = plyr_position(cur, disp_name)
     id = player_id(cur, disp_name)
     name = disp_name.replace('-',' ').title()
     img_url = "http://s3-us-west-2.amazonaws.com/nflheadshots/%s-%s.png" % (id, img_name)
-    
     print name, pos, week_num
     
-    game_features = all_players(cur, disp_name, week_num)  #add coaches and starter info
+    #gets the names and IDs of the players appearing in the upcoming game
+    game_plyr_names = all_players(cur, disp_name, week_num) 
     plyr_ids = []
     if len(game_features) != 0:
-      plyr_ids = convert_names_to_ids(cur, game_features)
+      plyr_ids = convert_names_to_ids(cur, game_plyr_names)
     
+    #coach ids and is starter
     pts = 0
     if len(plyr_ids) != 0:
       pts = predict(cur, id, plyr_ids)
