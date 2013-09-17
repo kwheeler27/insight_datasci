@@ -19,7 +19,8 @@ def players():
     display_name = row[0]
     pos = row[1]
     n = display_name.replace('-',' ')
-    temparr.append({'value':'%s' % n.title(),
+    if pos in ['WR', 'RB', 'QB', 'TE', 'PK', 'FB']:
+      temparr.append({'value':'%s' % n.title(),
                    'tokens':n.split(' '),
                    'datum':{'value':'%s' % n.title(),'position':row[1]}, 'tokens':n.split(' ')})
                    
