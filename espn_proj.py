@@ -5,13 +5,15 @@ import time
 import csv
 import MySQLdb as mdb
 from bs4 import BeautifulSoup
+import numpy as np
+import pandas as pd
 
 def is_game_row(c):
   return c == 'oddrow' or c == 'evenrow'
 
 def main():
   wfile = open("espn-proj.csv", "wb")
-  field_names = ['plyr_id', 'proj_pts', 'week']
+  field_names = ['plyr_id', 'proj_pts','week']
   writer = csv.writer(wfile)
   writer.writerow(field_names)
   for w in range(1,3):
