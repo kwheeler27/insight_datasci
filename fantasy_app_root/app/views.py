@@ -67,7 +67,7 @@ def results():
     m = True
     return render_template("home.html", title = 'Home', form = form, m=m)
     
-  week = get_week(form) #check if week is selected
+  week = get_week(form) 
   plyrs = plyr_names(form) #check if each name is valid
   predictions = make_predictions(plyrs, week)
   
