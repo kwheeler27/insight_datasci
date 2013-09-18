@@ -15,7 +15,7 @@ def connect():
 
 def get_plyr_ids(cur):
   arr = []
-  command = "SELECT plyr_id FROM actual_fantasy_pts WHERE week = '1' LIMIT 20;"
+  command = "SELECT plyr_id FROM actual_fantasy_pts WHERE week = '1';"
   cur.execute(command)
   rows = cur.fetchall()
   for r in rows:
@@ -85,11 +85,11 @@ def main():
   print "NUM PLYRS: ", len(plyr_names), len(plyr_ids), len(actual_pts), len(espn_proj), 
   my_proj = make_projections(plyr_names, 1)
   arr = [plyr_ids, actual_pts, espn_proj, my_proj]
-  data = np.array(arr)
+  data = {'plyr_ids': plyr_ids, 'actual_pts': actual_pts, 'espn_proj': espn_proj, 'my_proj': my_proj}
   print data
   
-  valid = pd.DataFrame(data, columns=['plyr_id','actual_pts', 'espn_proj', 'my_proj'])
-  fantasy_frame.to_csv('validation_week1.csv')
+  valid = pd.DataFrame(data)
+  valid.to_csv('validation_week1.csv')
  
  
   cur.close()

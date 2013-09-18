@@ -3,7 +3,7 @@ import numpy as np
 import math
 import numpy as np
 import pandas as pd
-from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 
 #connect to MySQL
 def connect():
@@ -157,7 +157,10 @@ def update_training_matrix(plyrs_in_game, game, X):
     return
   for p in plyrs_in_game:
     if p in X.ix[game]:
-      X.ix[game][p] = 1
+      if p == 99999:
+        X.ix[game][p] = 10  
+      else:
+        X.ix[game][p] = 1
   return
 
 #populates an empty training matrix, X    
@@ -170,28 +173,20 @@ def populate_training_set(cur, X, games, plyr_id):
 def discretize(arr):
   result = []
   for i in arr:
-    if i <= 3.0:
+    if i <= 5.0:
       result.append(0)
-    elif i > 3.0 and i <= 6.0:
+    elif i > 5.0 and i <= 10.0:
       result.append(1)
-    elif i > 6.0 and i <= 9.0:
+    elif i > 10.0 and i <= 15.0:
       result.append(2)
-    elif i > 9.0 and i <= 12.0:
+    elif i > 15.0 and i <= 20.0:
       result.append(3)       
-    elif i > 12.0 and i <= 15.0:
+    elif i > 20.0 and i <= 25.0:
       result.append(4)
-    elif i > 15.0 and i <= 18.0:
-      result.append(5)
-    elif i > 18 and i <= 21.0:
-      result.append(6)
-    elif i > 21.0 and i <= 24.0:
-      result.append(7)       
-    elif i > 24.0 and i <= 27.0:
-      result.append(8)
-    elif i > 27.0 and i <= 30.0:
-      result.append(9)
+    elif i > 25.0 and i <= 30.0:
+      result.append(5)       
     else:
-      result.append(10)
+      result.append(6)
   return np.array(result) 
   
 #returns an np.array (1D) of the fantasy scores for a given player
@@ -216,6 +211,20 @@ def expected_val(nb_norm_prob, vals):
     ans += nb_norm_prob[i]*vals[i]
   return ans
 
+def weights(games):
+  arr = []
+  for elem in games:
+    if elem < 300909018:
+      arr.append(1)
+    elif elem >= 300909018 and elem < 310908009:
+      arr.append(2)
+    elif elem >= 310908009 and elem < 320905019:
+      arr.append(3)
+    elif elem >= 320905019 and elem < 330905007:
+      arr.append(4)
+    else:
+      arr.append(5)
+  return np.array(arr)
   
 def predict(cur, plyr_id, game_plyrs): 
   #creates training set (called 'X') for plyr
@@ -223,6 +232,7 @@ def predict(cur, plyr_id, game_plyrs):
   games = games_played_in(cur, plyr_id) #np.array - the games_ids the player played in
   n_cols = all_plyrs.shape[0] #int 
   m_rows = games.shape[0] #int
+  w = weights(games)
   zeros = np.zeros((m_rows, n_cols)) #2darr - used to initialize DF
   X = pd.DataFrame(zeros, index=games, columns=all_plyrs) #dataframe
   populate_training_set(cur, X, games, plyr_id)
@@ -237,15 +247,15 @@ def predict(cur, plyr_id, game_plyrs):
   update_training_matrix(game_plyrs, 0, test_X)
   
   #run Bernoulli NB Classifier
-  nb_clf = BernoulliNB()
+  nb_clf = MultinomialNB()
   
   if len(X.values) == 0:
     return 0
-  nb_clf.fit(X, Y)
+  nb_clf.fit(X, Y, sample_weight=w)
   nb_predictions = nb_clf.predict(test_X)
   print "test_X: ", test_X.values
   nb_norm_prob = normalize_probs(nb_clf.predict_proba(test_X)[0])
-  avgs = [1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 25.5, 28.5, 31.5]
+  avgs = range(3,35,5)
   print "param vector: ", nb_clf.predict_proba(test_X)[0]
   print "probs: ", nb_norm_prob
   print avgs
@@ -358,6 +368,7 @@ def make_predictions(plyrs, week_num):
       predictions[pos] = []
       predictions[pos].append(plyr_dict)
     print "Prediction: ", pts
+    print "MN"
   cur.close()
   del cur
   db.close()
