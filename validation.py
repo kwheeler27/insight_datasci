@@ -9,7 +9,7 @@ from mn_projections import *
 
 #connect to MySQL
 def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root')
+  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
   db.autocommit(True)
   return db, db.cursor()
 
@@ -89,7 +89,7 @@ def main():
   print data
   
   valid = pd.DataFrame(data)
-  valid.to_csv('validation_week1_mn8.csv')
+  valid.to_csv('validation_week1_mn9.csv')
  
  
   cur.close()

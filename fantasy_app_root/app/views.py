@@ -7,7 +7,7 @@ from mn_predictions import *
 
 @app.route('/players', methods = ['GET'])
 def players():
-  con = mdb.connect(host='localhost', db='fantasy_lineups', user='root')
+  con = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
   cur = con.cursor()
   #test
   command = "SELECT DISTINCT(name), position FROM players;"

@@ -1,6 +1,6 @@
 #!flask/bin/python
 from app import app
-app.run(debug = True)
+app.run(host='0.0.0.0', port='80')
 
 '''
 The script simply imports the app variable from our app package and invokes its run method to start the server

@@ -8,7 +8,7 @@ from pandas.io import sql
 
 #connect to MySQL
 def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root')
+  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
   db.autocommit(True)
   return db, db.cursor()
   
