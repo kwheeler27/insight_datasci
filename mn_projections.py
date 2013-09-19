@@ -64,7 +64,7 @@ def make_projections(plyrs, week_num):
     off_weight = offense_weight(home_team, pos)
     def_weight = defense_weight(opp_team, pos)
     pts = pts * off_weight * def_weight
-      
+
     predictions.append(round(pts,1))
     
   cur.close()

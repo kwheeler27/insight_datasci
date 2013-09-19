@@ -14,7 +14,7 @@ def connect():
   
 def main():
   
-  infile = "./games-data.csv"
+  infile = "./games-data2.csv"
   db = connect()[0]
   cur = connect()[1]
   cur.execute("USE fantasy_lineups;")

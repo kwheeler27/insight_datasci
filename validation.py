@@ -89,7 +89,7 @@ def main():
   print data
   
   valid = pd.DataFrame(data)
-  valid.to_csv('validation_week1_mn7.csv')
+  valid.to_csv('validation_week1_mn8.csv')
  
  
   cur.close()

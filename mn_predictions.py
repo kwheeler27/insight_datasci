@@ -151,16 +151,30 @@ def plyrs_in_game(cur, game_id, plyr_id):
       arr.append(99999)
   return np.array(arr)
 
+def is_starter(cur, id):
+  command = "SELECT is_starter FROM current_starters WHERE plyr_id = '%s' LIMIT 1;" % (id)
+  cur.execute(command)
+  rows = cur.fetchall()
+  if len(rows) == 0:
+    return False
+  starter = rows[0][0]
+  if starter == 1:
+    return True
+  else:
+    return False
+    
 #sets X[game_id][plyr_id] = 1 if plyr/coach is in plyrs_in_game
-def update_training_matrix(plyrs_in_game, game, X):
+def update_training_matrix(cur, plyrs_in_game, game, X):
   if len(X.values) == 0:
     return
   for p in plyrs_in_game:
     if p in X.ix[game]:
       if p == 99999:
-        X.ix[game][p] = 10  
-      elif p >= 1 and p <= 120:
         X.ix[game][p] = 5  
+      elif p >= 1 and p <= 120:
+        X.ix[game][p] = 4  
+      elif is_starter(cur, p):
+        X.ix[game][p] = 3
       else:
         X.ix[game][p] = 1
   return
@@ -169,7 +183,7 @@ def update_training_matrix(plyrs_in_game, game, X):
 def populate_training_set(cur, X, games, plyr_id):
   for g in games:
     plyrs = plyrs_in_game(cur, g, plyr_id) #np.arr - list of players who played in given game (incls coaches/starter)
-    update_training_matrix(plyrs, g, X)
+    update_training_matrix(cur, plyrs, g, X)
   return
 
 def discretize(arr):
@@ -265,35 +279,35 @@ def defense_weight(team, pos):
   if pos == 'WR' or pos == 'QB' or pos == 'TE':
     rank = def_dict[team][0]
     if rank == 1:
-      result = 0.9
+      result = 0.92
     if rank == 2:
       result = 0.95
     if rank == 3:
-      result = 1.0
+      result = 0.98
     if rank == 4:
-      result = 1.05
+      result = 1.02
     if rank == 5:
-      result = 1.1
+      result = 1.05
     if rank == 6:
-      result = 1.15
+      result = 1.08
   elif pos == 'RB':
     rank = def_dict[team][1]
     if rank == 1:
-      result = 0.9
+      result = 0.92
     if rank == 2:
       result = 0.95
     if rank == 3:
-      result = 1.0
+      result = 0.98
     if rank == 4:
-      result = 1.05
+      result = 1.02
     if rank == 5:
-      result = 1.1
+      result = 1.05
     if rank == 6:
-      result = 1.15
+      result = 1.08
   else:
     rank = 0.5*(def_dict[team][1] + def_dict[team][0])
     if rank >= 1 and rank < 2:
-      result = 0.92
+      result = 0.93
     if rank >= 2 and rank < 3:
       result = 0.96
     if rank >= 3 and rank < 4:
@@ -301,7 +315,7 @@ def defense_weight(team, pos):
     if rank >= 4 and rank < 5:
       result = 1.04
     else:
-      result = 1.08
+      result = 1.07
   return result
 
 def offense_weight(team, pos):
@@ -339,44 +353,44 @@ def offense_weight(team, pos):
   off_dict['no'] = [1,6]
   off_dict['tb'] = [5,3]
   result = 1
-  if pos == 'WR' or pos == 'QB' or pos == 'TE':
+  if pos == 'WR' or pos == 'TE':
     rank = off_dict[team][0]
     if rank == 6:
-      result = 0.85
+      result = 0.92
     if rank == 5:
-      result = 0.9
-    if rank == 4:
       result = 0.95
+    if rank == 4:
+      result = 0.98
     if rank == 3:
-      result = 1
+      result = 1.01
     if rank == 2:
-      result = 1.05
+      result = 1.04
     if rank == 1:
-      result = 1.1
+      result = 1.07
   elif pos == 'RB':
     rank = off_dict[team][1]
     if rank == 6:
-      result = 0.85
+      result = 0.92
     if rank == 5:
-      result = 0.9
-    if rank == 4:
       result = 0.95
+    if rank == 4:
+      result = 0.98
     if rank == 3:
-      result = 1
+      result = 1.01
     if rank == 2:
-      result = 1.05
+      result = 1.04
     if rank == 1:
-      result = 1.1
+      result = 1.07
   else:
     rank = 0.5*(off_dict[team][1] + off_dict[team][0])
     if rank >= 1 and rank < 2:
       result = 1.08
     if rank >= 2 and rank < 3:
-      result = 1.04
+      result = 1.05
     if rank >= 3 and rank < 4:
       result = 1
     if rank >= 4 and rank < 5:
-      result = 0.96
+      result = 0.95
     else:
       result = 0.92
   return result
@@ -400,7 +414,7 @@ def predict(cur, plyr_id, game_plyrs):
   print "(len) Y: ", len(Y), Y
   test_zeros = np.zeros((1, n_cols)) #2darr - used to initialize DF
   test_X = pd.DataFrame(zeros, columns=all_plyrs) #dataframe
-  update_training_matrix(game_plyrs, 0, test_X)
+  update_training_matrix(cur, game_plyrs, 0, test_X)
   
   #run Bernoulli NB Classifier
   nb_clf = MultinomialNB()
@@ -465,18 +479,6 @@ def get_coach_ids(cur, plyr_name, week):
   coaches.append(opp_coach)
   return coaches
 
-def is_starter(cur, id):
-  command = "SELECT is_starter FROM current_starters WHERE plyr_id = '%s' LIMIT 1;" % (id)
-  cur.execute(command)
-  rows = cur.fetchall()
-  if len(rows) == 0:
-    return False
-  starter = rows[0][0]
-  if starter == 1:
-    return True
-  else:
-    return False
-
 def make_predictions(plyrs, week_num):
   db = connect()[0]
   cur = connect()[1]
@@ -524,7 +526,8 @@ def make_predictions(plyrs, week_num):
             pts = 2
           else:
             pts = 1
-    
+      if not starter and pos == 'TE':
+        pts = 1
     #gets weights
     '''
     home_team = get_team(cur, disp_name)
