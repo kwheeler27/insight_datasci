@@ -90,8 +90,6 @@ def results():
   
   return render_template("results.html", form=form, qb=qb, wr=wr, rb=rb, te=te, pk=pk, d=d)
   
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='80')  
   
   
   
