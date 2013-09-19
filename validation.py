@@ -4,7 +4,7 @@ import MySQLdb as mdb
 import pandas as pd
 import numpy as np
 from pandas.io import sql
-from projections import *
+from mn_projections import *
 
 
 #connect to MySQL
@@ -89,7 +89,7 @@ def main():
   print data
   
   valid = pd.DataFrame(data)
-  valid.to_csv('validation_week1.csv')
+  valid.to_csv('validation_week1_mn7.csv')
  
  
   cur.close()

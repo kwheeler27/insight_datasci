@@ -265,43 +265,43 @@ def defense_weight(team, pos):
   if pos == 'WR' or pos == 'QB' or pos == 'TE':
     rank = def_dict[team][0]
     if rank == 1:
-      result = 0.8
-    if rank == 2:
       result = 0.9
-    if rank == 3:
+    if rank == 2:
       result = 0.95
+    if rank == 3:
+      result = 1.0
     if rank == 4:
       result = 1.05
     if rank == 5:
       result = 1.1
     if rank == 6:
-      result = 1.2
+      result = 1.15
   elif pos == 'RB':
     rank = def_dict[team][1]
     if rank == 1:
-      result = 0.8
-    if rank == 2:
       result = 0.9
-    if rank == 3:
+    if rank == 2:
       result = 0.95
+    if rank == 3:
+      result = 1.0
     if rank == 4:
       result = 1.05
     if rank == 5:
       result = 1.1
     if rank == 6:
-      result = 1.2
+      result = 1.15
   else:
     rank = 0.5*(def_dict[team][1] + def_dict[team][0])
     if rank >= 1 and rank < 2:
-      result = 0.9
+      result = 0.92
     if rank >= 2 and rank < 3:
-      result = 0.95
+      result = 0.96
     if rank >= 3 and rank < 4:
       result = 1
     if rank >= 4 and rank < 5:
-      result = 1.05
+      result = 1.04
     else:
-      result = 1.1
+      result = 1.08
   return result
 
 def offense_weight(team, pos):
@@ -344,41 +344,41 @@ def offense_weight(team, pos):
     if rank == 6:
       result = 0.85
     if rank == 5:
-      result = 0.92
+      result = 0.9
     if rank == 4:
-      result = 0.99
+      result = 0.95
     if rank == 3:
-      result = 1.06
+      result = 1
     if rank == 2:
-      result = 1.13
+      result = 1.05
     if rank == 1:
-      result = 1.2
+      result = 1.1
   elif pos == 'RB':
     rank = off_dict[team][1]
     if rank == 6:
-      result = 0.8
+      result = 0.85
     if rank == 5:
       result = 0.9
     if rank == 4:
       result = 0.95
     if rank == 3:
-      result = 1.05
+      result = 1
     if rank == 2:
-      result = 1.1
+      result = 1.05
     if rank == 1:
-      result = 1.2
+      result = 1.1
   else:
     rank = 0.5*(off_dict[team][1] + off_dict[team][0])
     if rank >= 1 and rank < 2:
-      result = 1.1
+      result = 1.08
     if rank >= 2 and rank < 3:
-      result = 1.05
+      result = 1.04
     if rank >= 3 and rank < 4:
       result = 1
     if rank >= 4 and rank < 5:
-      result = 0.95
+      result = 0.96
     else:
-      result = 0.9
+      result = 0.92
   return result
 
 
@@ -524,8 +524,7 @@ def make_predictions(plyrs, week_num):
             pts = 2
           else:
             pts = 1
-      if not starter and pos == 'TE':
-        pts = 1
+    
     #gets weights
     '''
     home_team = get_team(cur, disp_name)
