@@ -117,7 +117,7 @@ def all_player_ids(cur):
 
 def games_played_in(cur, id):
   arr = []
-  command = "SELECT game_id FROM fantasy_scores WHERE plyr_id = '%s';" % (id)
+  command = "SELECT game_id FROM matchups WHERE plyr_id = '%s';" % (id)
   cur.execute(command)
   rows = cur.fetchall()
   for r in rows:
@@ -516,7 +516,7 @@ def make_predictions(plyrs, week_num):
       if pts == 3:
         if starter and (pos == 'RB' or pos == 'QB'):
           if disp_name == 'arian-foster' or disp_name == 'marshawn-lynch' or disp_name == 'lesean-mccoy':
-            pts = 9
+            pts = 8.5
           else:
             pts = 6
         elif starter and (pos == 'WR'):
