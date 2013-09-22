@@ -142,13 +142,23 @@ def plyrs_in_game(cur, game_id, plyr_id):
     arr.append(r[0])
   
   #starter?
-  command3 = "SELECT is_starter FROM past_starters WHERE game_id = '%s' AND plyr_id = '%s';" % (game_id, plyr_id)
-  cur.execute(command3)
-  rows3 = cur.fetchall()
-  for r in rows3:
-    starter = r[0]
-    if starter == 1:
-      arr.append(99999)
+  if game_id < 330905007: #before 2013 season
+    command3 = "SELECT is_starter FROM past_starters WHERE game_id = '%s' AND plyr_id = '%s';" % (game_id, plyr_id)
+    cur.execute(command3)
+    rows3 = cur.fetchall()
+    for r in rows3:
+      starter = r[0]
+      if starter == 1:
+        arr.append(99999)
+  else: #2013 season
+    command3 = "SELECT is_starter FROM current_starters WHERE plyr_id = '%s';" % (game_id, plyr_id)
+    cur.execute(command3)
+    rows3 = cur.fetchall()
+    for r in rows3:
+      starter = r[0]
+      if starter == 1:
+        arr.append(99999)
+  
   return np.array(arr)
 
 def is_starter(cur, id):
@@ -408,7 +418,7 @@ def predict(cur, plyr_id, game_plyrs):
   populate_training_set(cur, X, games, plyr_id)
   print "X: ", X.values
   
-  
+  ###run coaches_model and then im here### 
   #creates vector of known output values
   Y = training_output_vector(cur, games, plyr_id)
   print "(len) Y: ", len(Y), Y

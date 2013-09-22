@@ -12,8 +12,8 @@ def is_game_row(c):
   return c == 'oddrow' or c == 'evenrow'
 
 def main():
-  wfile = open("espn-actual.csv", "wb")
-  field_names = ['plyr_id', 'tot_pts','week']
+  wfile = open("espn-actual2.csv", "wb")
+  field_names = ['game_id', 'plyr_id', 'tot_pts','week']
   writer = csv.writer(wfile)
   writer.writerow(field_names)
   for w in range(1,3):
@@ -24,11 +24,18 @@ def main():
       for tr in soup.find_all('tr', class_="pncPlayerRow"):
         id_match = re.search(r'plyr(\d+)',tr['id'])
         id = int(id_match.group(1))
-        td = tr.find('td', class_="playertableStat appliedPoints appliedPointsProGameFinal")
-        projpts = td.contents[0].encode('ascii', 'ignore')
+        td_pts = tr.find('td', class_="playertableStat appliedPoints appliedPointsProGameFinal")
+        projpts = td_pts.contents[0].encode('ascii', 'ignore')
+        td_game = tr.find('td', class_="gameStatusDiv")
+        href = td_game.find('a')
+        print href
+        href_str = str(href)
+        game_match = re.search(r'gameId=(\d+)', href_str)
+        game_id = game_match.group(1)
+        
         if projpts == '--':
           projpts = 0
-        data = [id, projpts, w]
+        data = [game_id, id, projpts, w]
         print data
         writer.writerow(data)
   wfile.close()

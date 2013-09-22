@@ -14,7 +14,7 @@ def connect():
   
 def main():
   field_names = ['plyr_id', 'tot_pts','week']
-  infile = "./espn-actual.csv"
+  infile = "./espn-actual2.csv"
   db = connect()[0]
   cur = connect()[1]
   cur.execute("USE fantasy_lineups;")

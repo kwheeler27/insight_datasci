@@ -50,7 +50,7 @@ def main():
   coach_dict['no'] = [42,42,42,50,42]
   coach_dict['tb'] = [75,75,75,100,100]
   
-  games_data = pd.read_csv('games-data.csv')
+  games_data = pd.read_csv('games-data2.csv')
   game_ids = np.unique(np.array(games_data['game_id']))
   early_months = ['January', 'February', 'March']
   count = 1
