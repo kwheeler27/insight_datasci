@@ -213,14 +213,20 @@ def discretize(arr):
       result.append(5)
   return np.array(result)
   
-#returns an np.array (1D) of the fantasy scores for a given player
+#returns an np.array (1D) of the fantasy scores for a given player - updated for 2013 week1
 def training_output_vector(cur, games, plyr_id):
   arr = []
   for g in games:
-    command = "SELECT fntsy_pts FROM fantasy_scores WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
-    cur.execute(command)
-    rows = cur.fetchall()
-    arr.append(rows[0][0])
+    if game_id < 330905007:
+      command = "SELECT fntsy_pts FROM fantasy_scores WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
+      cur.execute(command)
+      rows = cur.fetchall()
+      arr.append(rows[0][0])
+    else:
+      command = "SELECT tot_pts FROM actual_fantasy_pts WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
+      cur.execute(command)
+      rows = cur.fetchall()
+      arr.append(rows[0][0])
   print "Y - before discretize", arr
   y = discretize(arr)
   return y
