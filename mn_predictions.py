@@ -221,12 +221,18 @@ def training_output_vector(cur, games, plyr_id):
       command = "SELECT fntsy_pts FROM fantasy_scores WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
       cur.execute(command)
       rows = cur.fetchall()
-      arr.append(rows[0][0])
+      if len(rows) == 0:
+        arr.append(0)
+      else:
+        arr.append(rows[0][0])
     else:
       command = "SELECT tot_pts FROM actual_fantasy_pts WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
       cur.execute(command)
       rows = cur.fetchall()
-      arr.append(rows[0][0])
+      if len(rows) == 0:
+        arr.append(0)
+      else:
+        arr.append(rows[0][0])
   print "Y - before discretize", arr
   y = discretize(arr)
   return y
@@ -530,20 +536,27 @@ def make_predictions(plyrs, week_num):
     if len(plyr_ids) != 0:
       pts = predict(cur, id, feature_arr)
       if pts == 3:
-        if starter and (pos == 'RB' or pos == 'QB'):
-          if disp_name == 'arian-foster' or disp_name == 'marshawn-lynch' or disp_name == 'lesean-mccoy':
-            pts = 8.5
-          else:
-            pts = 6
-        elif starter and (pos == 'WR'):
-          pts = 4
+        if starter:
+        
+          if (pos == 'RB' or pos == 'QB' or pos == 'WR'):
+            if disp_name == 'arian-foster' or disp_name == 'marshawn-lynch' or disp_name == 'lesean-mccoy':
+              pts = 8.5
+            else:
+              pts = 7
+          elif (pos == 'TE'):
+            if disp_name == 'jimmy_graham' or disp_name == 'jason_witten':
+              pts = 8
+            else:
+              pts = 5
+          elif (pos == 'PK'):
+            pts = 6.5
         else:
           if pos == 'RB' or pos == 'WR':
             pts = 2
           else:
             pts = 1
-      if not starter and pos == 'TE':
-        pts = 1
+
+          
     #gets weights
     '''
     home_team = get_team(cur, disp_name)

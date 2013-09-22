@@ -42,29 +42,34 @@ def make_projections(plyrs, week_num):
     if len(plyr_ids) != 0:
       pts = predict(cur, id, feature_arr)
       if pts == 3:
-        if starter and (pos == 'RB' or pos == 'QB'):
-          if disp_name == 'arian-foster' or disp_name == 'marshawn-lynch' or disp_name == 'lesean-mccoy':
-            pts = 8
-          else:
-            pts = 6
-        elif starter and (pos == 'WR'):
-          pts = 4.5
+        if starter:
+        
+          if (pos == 'RB' or pos == 'QB' or pos == 'WR'):
+            if disp_name == 'arian-foster' or disp_name == 'marshawn-lynch' or disp_name == 'lesean-mccoy':
+              pts = 8.5
+            else:
+              pts = 7
+          elif (pos == 'TE'):
+            if disp_name == 'jimmy_graham' or disp_name == 'jason_witten':
+              pts = 8
+            else:
+              pts = 5
+          elif (pos == 'PK'):
+            pts = 6.5
         else:
           if pos == 'RB' or pos == 'WR':
             pts = 2
           else:
             pts = 1
-      if not starter and pos == 'TE':
-        pts = 1
     
     #gets weights
-    
+    '''
     home_team = get_team(cur, disp_name)
     opp_team = get_opp_team(cur, home_team, week_num)
     off_weight = offense_weight(home_team, pos)
     def_weight = defense_weight(opp_team, pos)
     pts = pts * off_weight * def_weight
-
+    '''
     predictions.append(round(pts,1))
     
   cur.close()
