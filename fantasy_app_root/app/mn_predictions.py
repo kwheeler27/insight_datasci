@@ -151,7 +151,7 @@ def plyrs_in_game(cur, game_id, plyr_id):
       if starter == 1:
         arr.append(99999)
   else: #2013 season
-    command3 = "SELECT is_starter FROM current_starters WHERE plyr_id = '%s';" % (game_id, plyr_id)
+    command3 = "SELECT is_starter FROM current_starters WHERE plyr_id = '%s';" % (plyr_id)
     cur.execute(command3)
     rows3 = cur.fetchall()
     for r in rows3:
@@ -217,7 +217,7 @@ def discretize(arr):
 def training_output_vector(cur, games, plyr_id):
   arr = []
   for g in games:
-    if game_id < 330905007:
+    if g < 330905007:
       command = "SELECT fntsy_pts FROM fantasy_scores WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
       cur.execute(command)
       rows = cur.fetchall()
@@ -426,7 +426,7 @@ def predict(cur, plyr_id, game_plyrs):
   
   ###run coaches_model and then im here### 
   #creates vector of known output values
-  Y = training_output_vector(cur, games, plyr_id)
+  Y = training_output_vector(cur, games, plyr_id) #good
   print "(len) Y: ", len(Y), Y
   test_zeros = np.zeros((1, n_cols)) #2darr - used to initialize DF
   test_X = pd.DataFrame(zeros, columns=all_plyrs) #dataframe

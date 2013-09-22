@@ -117,7 +117,7 @@ def all_player_ids(cur):
 
 def games_played_in(cur, id):
   arr = []
-  command = "SELECT game_id FROM fantasy_scores WHERE plyr_id = '%s';" % (id)
+  command = "SELECT game_id FROM matchups WHERE plyr_id = '%s';" % (id)
   cur.execute(command)
   rows = cur.fetchall()
   for r in rows:
@@ -142,13 +142,23 @@ def plyrs_in_game(cur, game_id, plyr_id):
     arr.append(r[0])
   
   #starter?
-  command3 = "SELECT is_starter FROM past_starters WHERE game_id = '%s' AND plyr_id = '%s';" % (game_id, plyr_id)
-  cur.execute(command3)
-  rows3 = cur.fetchall()
-  for r in rows3:
-    starter = r[0]
-    if starter == 1:
-      arr.append(99999)
+  if game_id < 330905007: #before 2013 season
+    command3 = "SELECT is_starter FROM past_starters WHERE game_id = '%s' AND plyr_id = '%s';" % (game_id, plyr_id)
+    cur.execute(command3)
+    rows3 = cur.fetchall()
+    for r in rows3:
+      starter = r[0]
+      if starter == 1:
+        arr.append(99999)
+  else: #2013 season
+    command3 = "SELECT is_starter FROM current_starters WHERE plyr_id = '%s';" % (plyr_id)
+    cur.execute(command3)
+    rows3 = cur.fetchall()
+    for r in rows3:
+      starter = r[0]
+      if starter == 1:
+        arr.append(99999)
+  
   return np.array(arr)
 
 def is_starter(cur, id):
@@ -203,14 +213,20 @@ def discretize(arr):
       result.append(5)
   return np.array(result)
   
-#returns an np.array (1D) of the fantasy scores for a given player
+#returns an np.array (1D) of the fantasy scores for a given player - updated for 2013 week1
 def training_output_vector(cur, games, plyr_id):
   arr = []
   for g in games:
-    command = "SELECT fntsy_pts FROM fantasy_scores WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
-    cur.execute(command)
-    rows = cur.fetchall()
-    arr.append(rows[0][0])
+    if g < 330905007:
+      command = "SELECT fntsy_pts FROM fantasy_scores WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
+      cur.execute(command)
+      rows = cur.fetchall()
+      arr.append(rows[0][0])
+    else:
+      command = "SELECT tot_pts FROM actual_fantasy_pts WHERE game_id = '%s' AND plyr_id = '%s';" % (g, plyr_id)
+      cur.execute(command)
+      rows = cur.fetchall()
+      arr.append(rows[0][0])
   print "Y - before discretize", arr
   y = discretize(arr)
   return y
@@ -408,9 +424,9 @@ def predict(cur, plyr_id, game_plyrs):
   populate_training_set(cur, X, games, plyr_id)
   print "X: ", X.values
   
-  
+  ###run coaches_model and then im here### 
   #creates vector of known output values
-  Y = training_output_vector(cur, games, plyr_id)
+  Y = training_output_vector(cur, games, plyr_id) #good
   print "(len) Y: ", len(Y), Y
   test_zeros = np.zeros((1, n_cols)) #2darr - used to initialize DF
   test_X = pd.DataFrame(zeros, columns=all_plyrs) #dataframe
@@ -516,7 +532,7 @@ def make_predictions(plyrs, week_num):
       if pts == 3:
         if starter and (pos == 'RB' or pos == 'QB'):
           if disp_name == 'arian-foster' or disp_name == 'marshawn-lynch' or disp_name == 'lesean-mccoy':
-            pts = 9
+            pts = 8.5
           else:
             pts = 6
         elif starter and (pos == 'WR'):

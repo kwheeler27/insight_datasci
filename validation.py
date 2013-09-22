@@ -15,7 +15,7 @@ def connect():
 
 def get_plyr_ids(cur):
   arr = []
-  command = "SELECT plyr_id FROM actual_fantasy_pts WHERE week = '1';"
+  command = "SELECT plyr_id FROM actual_fantasy_pts WHERE week = '2';"
   cur.execute(command)
   rows = cur.fetchall()
   for r in rows:
@@ -26,7 +26,7 @@ def get_plyr_ids(cur):
 def get_actual_pts(cur, plyr_ids):
   arr = []
   for id in plyr_ids:
-    command = "SELECT tot_pts FROM actual_fantasy_pts WHERE week = '1' AND plyr_id = '%s';" % (id)
+    command = "SELECT tot_pts FROM actual_fantasy_pts WHERE week = '2' AND plyr_id = '%s';" % (id)
     cur.execute(command)
     rows = cur.fetchall()
     pts = rows[0][0]
@@ -36,7 +36,7 @@ def get_actual_pts(cur, plyr_ids):
 def get_proj_pts(cur, plyr_ids):
   arr = []
   for id in plyr_ids:
-    command = "SELECT proj_pts FROM espn_projections WHERE week = '1' AND plyr_id = '%s';" % (id)
+    command = "SELECT proj_pts FROM espn_projections WHERE week = '2' AND plyr_id = '%s';" % (id)
     cur.execute(command)
     rows = cur.fetchall()
     pts = rows[0][0]
@@ -46,7 +46,7 @@ def get_proj_pts(cur, plyr_ids):
 def get_proj_pts(cur, plyr_ids):
   arr = []
   for id in plyr_ids:
-    command = "SELECT proj_pts FROM espn_projections WHERE week = '1' AND plyr_id = '%s';" % (id)
+    command = "SELECT proj_pts FROM espn_projections WHERE week = '2' AND plyr_id = '%s';" % (id)
     cur.execute(command)
     rows = cur.fetchall()
     #print rows
@@ -89,7 +89,7 @@ def main():
   print data
   
   valid = pd.DataFrame(data)
-  valid.to_csv('validation_week1_mn9.csv')
+  valid.to_csv('validation_week2_mn1.csv')
  
  
   cur.close()
