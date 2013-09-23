@@ -233,7 +233,7 @@ def training_output_vector(cur, games, plyr_id):
         arr.append(0)
       else:
         arr.append(rows[0][0])
-  print "Y - before discretize", arr
+  #print "Y - before discretize", arr
   y = discretize(arr)
   return y
 
@@ -301,43 +301,43 @@ def defense_weight(team, pos):
   if pos == 'WR' or pos == 'QB' or pos == 'TE':
     rank = def_dict[team][0]
     if rank == 1:
-      result = 0.92
-    if rank == 2:
       result = 0.95
+    if rank == 2:
+      result = 0.975
     if rank == 3:
-      result = 0.98
+      result = 0.99
     if rank == 4:
-      result = 1.02
+      result = 1.01
     if rank == 5:
-      result = 1.05
+      result = 1.025
     if rank == 6:
-      result = 1.08
+      result = 1.05
   elif pos == 'RB':
     rank = def_dict[team][1]
     if rank == 1:
-      result = 0.92
-    if rank == 2:
       result = 0.95
+    if rank == 2:
+      result = 0.975
     if rank == 3:
-      result = 0.98
+      result = 0.99
     if rank == 4:
-      result = 1.02
+      result = 1.01
     if rank == 5:
-      result = 1.05
+      result = 1.025
     if rank == 6:
-      result = 1.08
+      result = 1.05
   else:
     rank = 0.5*(def_dict[team][1] + def_dict[team][0])
     if rank >= 1 and rank < 2:
-      result = 0.93
+      result = 0.95
     if rank >= 2 and rank < 3:
-      result = 0.96
+      result = 0.975
     if rank >= 3 and rank < 4:
       result = 1
     if rank >= 4 and rank < 5:
-      result = 1.04
+      result = 1.025
     else:
-      result = 1.07
+      result = 1.05
   return result
 
 def offense_weight(team, pos):
@@ -378,43 +378,43 @@ def offense_weight(team, pos):
   if pos == 'WR' or pos == 'TE':
     rank = off_dict[team][0]
     if rank == 6:
-      result = 0.92
-    if rank == 5:
       result = 0.95
+    if rank == 5:
+      result = 0.975
     if rank == 4:
-      result = 0.98
+      result = 0.99
     if rank == 3:
       result = 1.01
     if rank == 2:
-      result = 1.04
+      result = 1.025
     if rank == 1:
-      result = 1.07
+      result = 1.05
   elif pos == 'RB':
     rank = off_dict[team][1]
     if rank == 6:
-      result = 0.92
-    if rank == 5:
       result = 0.95
+    if rank == 5:
+      result = 0.975
     if rank == 4:
-      result = 0.98
+      result = 0.99
     if rank == 3:
       result = 1.01
     if rank == 2:
-      result = 1.04
+      result = 1.025
     if rank == 1:
-      result = 1.07
+      result = 1.05
   else:
     rank = 0.5*(off_dict[team][1] + off_dict[team][0])
     if rank >= 1 and rank < 2:
-      result = 1.08
-    if rank >= 2 and rank < 3:
       result = 1.05
+    if rank >= 2 and rank < 3:
+      result = 1.025
     if rank >= 3 and rank < 4:
       result = 1
     if rank >= 4 and rank < 5:
-      result = 0.95
+      result = 0.975
     else:
-      result = 0.92
+      result = 0.95
   return result
 
 
@@ -428,12 +428,12 @@ def predict(cur, plyr_id, game_plyrs):
   zeros = np.zeros((m_rows, n_cols)) #2darr - used to initialize DF
   X = pd.DataFrame(zeros, index=games, columns=all_plyrs) #dataframe
   populate_training_set(cur, X, games, plyr_id)
-  print "X: ", X.values
+  #print "X: ", X.values
   
   ###run coaches_model and then im here### 
   #creates vector of known output values
   Y = training_output_vector(cur, games, plyr_id) #good
-  print "(len) Y: ", len(Y), Y
+  #print "(len) Y: ", len(Y), Y
   test_zeros = np.zeros((1, n_cols)) #2darr - used to initialize DF
   test_X = pd.DataFrame(zeros, columns=all_plyrs) #dataframe
   update_training_matrix(cur, game_plyrs, 0, test_X)
@@ -445,11 +445,11 @@ def predict(cur, plyr_id, game_plyrs):
     return 0
   nb_clf.fit(X, Y, sample_weight=w)
   nb_predictions = nb_clf.predict(test_X)
-  print "test_X: ", test_X.values
+  #print "test_X: ", test_X.values
   nb_norm_prob = normalize_probs(nb_clf.predict_proba(test_X)[0])
   avgs = [3,8,12.5,17,21,25]
-  print "probs: ", nb_norm_prob
-  print avgs
+  #print "probs: ", nb_norm_prob
+  #print avgs
   ev = expected_val(nb_norm_prob, avgs) #can also calc dot product
   return round(ev,1)
   
@@ -488,13 +488,14 @@ def coach(team):
   coach_dict['car'] = [13,13,90,90,90]
   coach_dict['no'] = [42,42,42,50,42]
   coach_dict['tb'] = [75,75,75,100,100]
-
+  
   return coach_dict[team][4]
 
 def get_coach_ids(cur, plyr_name, week):
   coaches = []
   plyr_team = get_team(cur, plyr_name)
   opp_team = get_opp_team(cur, plyr_team, week)
+  
   plyr_coach = coach(plyr_team) 
   opp_coach = coach(opp_team) 
   coaches.append(plyr_coach)
@@ -520,10 +521,23 @@ def make_predictions(plyrs, week_num):
     
     #gets the names and IDs of the players appearing in the upcoming game
     game_plyr_names = all_players(cur, disp_name, week_num) 
+    
+    pts = 0
     plyr_ids = []
     if len(game_plyr_names) != 0:
       plyr_ids = convert_names_to_ids(cur, game_plyr_names)
-    
+    else:
+      plyr_dict = {}
+      plyr_dict[name] = (round(pts,1), img_url) 
+      if pos == 'PK':
+        pos = 'K'
+      if pos in predictions:
+        predictions[pos].append(plyr_dict)
+        predictions[pos].sort(reverse=True, key=lambda elem:elem.values()[0] )
+      else:
+        predictions[pos] = []
+        predictions[pos].append(plyr_dict)
+      continue
     #coach ids and is starter
     coaches = get_coach_ids(cur, disp_name, week_num)
     starter = is_starter(cur, id)
@@ -532,7 +546,7 @@ def make_predictions(plyrs, week_num):
     feature_arr = plyr_ids + coaches
     
     #predicts points - general heuristics
-    pts = 0
+    
     if len(plyr_ids) != 0:
       pts = predict(cur, id, feature_arr)
       if pts == 3:
@@ -567,8 +581,7 @@ def make_predictions(plyrs, week_num):
     '''
     
     plyr_dict = {}
-    plyr_dict[name] = (round(pts,1), img_url)
-    
+    plyr_dict[name] = (round(pts,1), img_url) 
     if pos == 'PK':
       pos = 'K'
     if pos in predictions:

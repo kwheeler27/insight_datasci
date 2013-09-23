@@ -29,7 +29,11 @@ def make_projections(plyrs, week_num):
     plyr_ids = []
     if len(game_plyr_names) != 0:
       plyr_ids = convert_names_to_ids(cur, game_plyr_names)
-    
+    else:
+      pts = 0
+      plyr_data = [id, disp_name, pos, pts, week_num]
+      predictions.append(plyr_data)
+      continue
    #coach ids and is starter
     coaches = get_coach_ids(cur, disp_name, week_num)
     starter = is_starter(cur, id)
@@ -71,12 +75,11 @@ def make_projections(plyrs, week_num):
     pts = pts * off_weight * def_weight
     
     pts = round(pts,1)
-    '''
     plyr_data = [id, disp_name, pos, pts, week_num]
     predictions.append(plyr_data)
     '''    
     predictions.append(pts)
-    
+    '''
   cur.close()
   db.close()
 

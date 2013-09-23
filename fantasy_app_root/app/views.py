@@ -71,6 +71,7 @@ def results():
   plyrs = plyr_names(form) #check if each name is valid
   predictions = make_predictions(plyrs, week)
   
+  
   qb = []
   wr = []
   rb = []

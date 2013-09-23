@@ -13,7 +13,7 @@ def main():
   rfile = open("players.csv", "rb")
   #field_names = ['ID','Full Name','First Name','Last Name','Player URL','Display Name']
   reader = csv.DictReader(rfile)
-  wfile = open("games-data2.csv", "wb")
+  wfile = open("games-data4.csv", "wb")
   field_names = ['count', 'game_id','plyr_id','name']
   writer = csv.writer(wfile)
   writer.writerow(field_names)
@@ -24,7 +24,7 @@ def main():
     id = int(plyr['ID'])
     name = plyr['Display Name']
     print "NAME: ", name
-    for year in range(2009,2014):
+    for year in range(2013,2014):
       print "YEAR: ", year
       gamelog_url = "http://espn.go.com/nfl/player/gamelog/_/id/%d/year/%d/%s" % (id, year, name)
       gamelog_res = requests.get(gamelog_url)
@@ -32,7 +32,7 @@ def main():
       week = 1
       for tr in soup.find_all('tr', class_=is_game_row):
         print "WEEK: ", week
-        if week == 1 or year != 2013:   
+        if week == 2:   
           for child in tr.find_all(href=re.compile('/nfl/boxscore')):
             href_str = str(child)
             game_id = re.search(r'\?gameId=(\d+)', href_str)
