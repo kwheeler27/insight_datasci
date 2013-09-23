@@ -255,11 +255,11 @@ def weights(games):
     elif elem >= 300909018 and elem < 310908009:
       arr.append(2)
     elif elem >= 310908009 and elem < 320905019:
-      arr.append(3)
-    elif elem >= 320905019 and elem < 330905007:
       arr.append(5)
+    elif elem >= 320905019 and elem < 330905007:
+      arr.append(8)
     else:
-      arr.append(7)
+      arr.append(11)
   return np.array(arr)
 
 def defense_weight(team, pos):
@@ -447,7 +447,7 @@ def predict(cur, plyr_id, game_plyrs):
   nb_predictions = nb_clf.predict(test_X)
   print "test_X: ", test_X.values
   nb_norm_prob = normalize_probs(nb_clf.predict_proba(test_X)[0])
-  avgs = range(3,30,5)
+  avgs = [3,8,12.5,17,21,25]
   print "probs: ", nb_norm_prob
   print avgs
   ev = expected_val(nb_norm_prob, avgs) #can also calc dot product
@@ -540,11 +540,11 @@ def make_predictions(plyrs, week_num):
         
           if (pos == 'RB' or pos == 'QB' or pos == 'WR'):
             if disp_name == 'arian-foster' or disp_name == 'marshawn-lynch' or disp_name == 'lesean-mccoy':
-              pts = 8.5
+              pts = 8.8
             else:
-              pts = 7
+              pts = 6.7
           elif (pos == 'TE'):
-            if disp_name == 'jimmy_graham' or disp_name == 'jason_witten':
+            if disp_name == 'jimmy-graham' or disp_name == 'jason-witten':
               pts = 8
             else:
               pts = 5

@@ -32,16 +32,6 @@ def get_actual_pts(cur, plyr_ids):
     pts = rows[0][0]
     arr.append(pts)
   return arr
-
-def get_proj_pts(cur, plyr_ids):
-  arr = []
-  for id in plyr_ids:
-    command = "SELECT proj_pts FROM espn_projections WHERE week = '2' AND plyr_id = '%s';" % (id)
-    cur.execute(command)
-    rows = cur.fetchall()
-    pts = rows[0][0]
-    arr.append(pts)
-  return arr
   
 def get_proj_pts(cur, plyr_ids):
   arr = []
@@ -89,7 +79,7 @@ def main():
   print data
   
   valid = pd.DataFrame(data)
-  valid.to_csv('validation_week2_mn1.csv')
+  valid.to_csv('validation_week2_mn2.csv')
  
  
   cur.close()

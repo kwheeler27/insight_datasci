@@ -37,7 +37,7 @@ def make_projections(plyrs, week_num):
       coaches.append(99999)  
     feature_arr = plyr_ids + coaches
     
-    #predicts points - general heuristics
+   #predicts points - general heuristics
     pts = 0
     if len(plyr_ids) != 0:
       pts = predict(cur, id, feature_arr)
@@ -46,11 +46,11 @@ def make_projections(plyrs, week_num):
         
           if (pos == 'RB' or pos == 'QB' or pos == 'WR'):
             if disp_name == 'arian-foster' or disp_name == 'marshawn-lynch' or disp_name == 'lesean-mccoy':
-              pts = 8.5
+              pts = 8.8
             else:
-              pts = 7
+              pts = 6.7
           elif (pos == 'TE'):
-            if disp_name == 'jimmy_graham' or disp_name == 'jason_witten':
+            if disp_name == 'jimmy-graham' or disp_name == 'jason-witten':
               pts = 8
             else:
               pts = 5
@@ -63,19 +63,23 @@ def make_projections(plyrs, week_num):
             pts = 1
     
     #gets weights
-    '''
+    
     home_team = get_team(cur, disp_name)
     opp_team = get_opp_team(cur, home_team, week_num)
     off_weight = offense_weight(home_team, pos)
     def_weight = defense_weight(opp_team, pos)
     pts = pts * off_weight * def_weight
+    
+    pts = round(pts,1)
     '''
-    predictions.append(round(pts,1))
+    plyr_data = [id, disp_name, pos, pts, week_num]
+    predictions.append(plyr_data)
+    '''    
+    predictions.append(pts)
     
   cur.close()
-  del cur
   db.close()
-  del db  
+
   return predictions
   
   
