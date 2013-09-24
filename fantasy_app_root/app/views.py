@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, request, jsonify, s
 from forms import RosterForm
 import MySQLdb as mdb
 import json
-from mn_predictions import *
+from fantasy_predictions import *
 
 @app.route('/players', methods = ['GET'])
 def players():
@@ -69,7 +69,7 @@ def results():
     
   week = get_week(form) 
   plyrs = plyr_names(form) #check if each name is valid
-  predictions = make_predictions(plyrs, week)
+  predictions = calc_predictions(plyrs, week)
   
   
   qb = []
