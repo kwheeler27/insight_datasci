@@ -35,10 +35,11 @@ def players():
 def index():
     form = RosterForm()
     m = False
+    n = False
     if form.validate_on_submit():
       flash('Roster Flash: ' + form.p1.data)
       return redirect('/optimize')
-    return render_template("home.html", title = 'Home', form = form, m=m)
+    return render_template("home.html", title = 'Home', form = form, m=m, n=n)
 
 @app.route('/algorithm')
 def algorithm():
@@ -65,11 +66,17 @@ def results():
   if 'week' not in form:
     form = RosterForm()
     m = True
-    return render_template("home.html", title = 'Home', form = form, m=m)
+    n = False
+    return render_template("home.html", title = 'Home', form = form, m=m, n=n)
     
   week = get_week(form) 
   plyrs = plyr_names(form) #check if each name is valid
   predictions = calc_predictions(plyrs, week)
+  if predictions == []:
+    form = RosterForm()
+    n = True
+    m = False
+    return render_template("home.html", title = 'Home', form = form, m=m, n=n)
   
   
   qb = []

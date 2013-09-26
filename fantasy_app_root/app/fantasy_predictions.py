@@ -34,6 +34,8 @@ def plyr_data(cur, plyr, week):
   command = "SELECT position, plyr_id, points FROM all_predictions WHERE name = '%s' AND week = '%s';" % (mdb.escape_string(plyr), week)
   cur.execute(command)
   rows = cur.fetchall()
+  if len(rows) == 0:
+    return [], [], []
   return rows[0][0], rows[0][1], rows[0][2]
 
 def weekly_rank(cur, pos, id, week):
@@ -60,14 +62,14 @@ def calc_predictions(plyrs, week_num):
     disp_name = display_name(p)
     img_name = disp_name.replace('.','')
     pos, id, pts = plyr_data(cur, disp_name, week_num)
+    if id == []:
+      return []
     print "name: ", disp_name, "pos: ", pos, "id: ", id, "pts: ", pts
     name = disp_name.replace('-',' ').title()
     img_url = "http://s3-us-west-2.amazonaws.com/nflheadshots/%s-%s.png" % (id, img_name)
     
     rank = weekly_rank(cur, pos, id, week_num)
-    
-    
-    
+
     plyr_dict = {}
     plyr_dict[name] = (round(pts,1), img_url, rank) 
     if pos == 'PK':
@@ -79,7 +81,7 @@ def calc_predictions(plyrs, week_num):
       predictions[pos] = []
       predictions[pos].append(plyr_dict)
     print "Prediction: ", pts
-
+  
   cur.close()
   del cur
   db.close()

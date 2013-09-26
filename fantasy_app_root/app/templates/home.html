@@ -19,13 +19,16 @@
   <img src="static/img/footballimage.png" alt="">
 </div>
 
+<center>
+  <div class="container jmptrn-par">
+<div class="jumbotron">
 {% if m %}
 <div class="alert alert-danger"><strong>Oh snap!</strong> Please select a week.</div>
 {% endif %}
 
-<center>
-  <div class="container jmptrn-par">
-<div class="jumbotron">
+{% if n %}
+<div class="alert alert-danger" style="z-index: 9999;"><strong>Oh snap!</strong> You entered at least one player not in the database.</div>
+{% endif %}
 <form action="{{ url_for('optimize') }}" method="post" name="roster" role="form" id="roster-form">
 
 <div class="row jmptrn-child">
