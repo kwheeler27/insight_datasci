@@ -1,0 +1,174 @@
+9/5/2013
+MySQL primer
+
+Most time is spent selecting data; some time spent inserting/updating data
+SQL is designed to be used with relational databases
+
+SELECT
+  [col]
+FROM
+  [table]
+WHERE
+  [condition]
+ORDER BY, GROUP BY, 
+
+-----------------
+BASICS
+-----------------
+first statement:
+SELECT * FROM world_innodb.city;
+
+FILTERING
+filtering data (note: strings in quotes, ints are not):
+SELECT * FROM world_innodb.city WHERE countrycode = 'AUS';
+
+filtering with additional condition:
+SELECT * FROM world_innodb.city 
+  WHERE countrycode = 'AUS' 
+  AND district = 'Capital Region';
+  
+SELECT * FROM world_innodb.city 
+  WHERE countrycode = 'AUS' 
+  AND district = 'Capital Region'
+  AND population < 1000000;
+  
+Sorting data:
+SELECT * FROM world_innodb.city 
+  ORDER BY population [ASC|DESC];
+
+Sorting multiple data:
+SELECT * FROM world_innodb.city 
+  ORDER BY countrycode DESC, population ASC;
+(can also refer to col names by col number (eg 3 or 5))
+
+Sorting by a random field/column:
+SELECT * FROM world_innodb.city 
+  ORDER BY RAND() LIMIT 3;
+
+-----------------
+EXERCISES
+-----------------
+Return the 15 most populous countries
+SELECT * FROM country
+  ORDER BY population DESC
+  LIMIT 15;
+
+What is the country with the lowest life expectancy in eastern europe
+SELECT name FROM country
+  WHERE region = 'Eastern Europe'
+  ORDER BY life_expectancy ASC
+  LIMIT 1;
+  
+
+what is the GNP of the country with the largest area of population between 10M and 100M?
+SELECT GNP FROM country
+  WHERE population BETWEEN 1e7 AND 1e8
+  ORDER BY SurfaceArea DESC
+  LIMIT 1;
+
+to view table schema:
+DESCRIBE tbl_name;
+
+-----------------
+FUNCTIONS
+-----------------
+two types of functions: aggregates and scalars
+aggregates applies to whole dataset (max, avg, count).
+scalars apply to single element (date, ucase).
+functions may be lang-dependent (functions in mysql may not work in postgresql)
+
+common data types
+varchar (word or string of chars)
+datetime (time and date)
+integer
+float/double
+boolean (true or false)
+
+common functions
+count()
+min()
+max()
+date()
+ucase() - upper cases the text
+avg()
+std()
+
+null
+don't say something = NULL, say something IS or IS NOT NULL
+it's not a data type, it's the absence of data
+
+-----------------
+GROUPS
+-----------------
+-returns one of each items being grouped
+-only makes sense when used with aggregate funcitons
+SELECT region, AVG(surfaceArea) FROM country GROUP BY region;
+-for each region, returns average surface area
+-think of group statement and aggregated function as going hand-in-hand
+
+SELECT region, AVG(surfaceArea) 
+  FROM country GROUP BY region
+  HAVING AVG(population) > 10e6
+-having is like the 'where' clause for aggregations
+-where statement has no concept of average population (or any other aggregated quantity)  
+
+-----------------
+EXCERCISES
+-----------------
+How many countries declared independence after 1950? Group by region.
+SELECT region, COUNT(name) FROM country
+  WHERE indep_date IS NOT NULL AND DATE(independ_date) > 1950
+  GROUP BY region
+
+
+show each region and the smallest area, largest area, and total population. group by region.
+SELECT region, MIN(surfaceArea), MAX(surfaceArea), SUM(population), count(name)
+  FROM country
+  GROUP BY region
+  HAVING COUNT(DISTINCT governmentform) > 5;
+
+
+show top 10 heads of state by number of countries led
+SELECT headsOfState, COUNT(*)
+  FROM country
+  GROUP BY region
+  ORDER BY 2 DESC
+  LIMIT 10;
+
+--------------
+JOINS        
+--------------
+Working with two different tables
+-types: inner, outer, right, left
+
+general syntax: 
+SELECT
+FROM
+INNER JOIN db1.table1 ON table2.col1 = table2.col2
+
+ex) total urban population of a region in the world?
+SELECT region, SUM(city.population) AS urban_pop
+  FROM world_innodb.city
+  INNER JOIN wolrd_innodb.country
+  ON city.countryCode = country.code
+  GROUP BY region
+  GROUP BY urban_pop DESC
+  
+ex) how many cities are the per form of govt?
+SELECT *
+  FROM world_innodb.city
+  INNER JOIN world_innodb.country
+  ON city.CountryCode = country.Code
+  WHERE governmentform NOT LIKE '%Republic%' - finds a match (can use = to match exactly)
+  GROUP BY 1
+  GROUP BY 2 DESC
+  
+-left joins
+ex) which countries have no cities?
+SELECT country.name FROM country
+  LEFT JOIN city
+  ON city.countrycode = country.code
+  WHERE city.id IS NULL
+  
+  
+  
