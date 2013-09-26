@@ -36,6 +36,7 @@
     {{form.hidden_tag()}}    
         {% for entry in form %}
           {% if loop.index > 13 %}
+            
           {% elif loop.index > 10 %}
             {{entry(class_='query form-control extra-field', placeholder=entry.label.text)}}
           {% elif loop.index > 1 %} 
