@@ -35,10 +35,11 @@
     <div class="form-container" style="margin-top: 50px;">
     {{form.hidden_tag()}}    
         {% for entry in form %}
-          {% if loop.index > 5 %}
+          {% if loop.index > 13 %}
+          {% elif loop.index > 10 %}
             {{entry(class_='query form-control extra-field', placeholder=entry.label.text)}}
           {% elif loop.index > 1 %} 
-            {{entry(class_='query form-control', placeholder=entry.label.text)}}
+            {{entry(class_='query form-control', value=entry.label.text)}}
           {% else %}
           {% endif %}
         {% endfor %}<br>

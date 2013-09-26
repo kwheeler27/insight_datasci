@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="prj-score"><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong></div>
-          <!-- <div class="pos-rank">Position rank: </div> -->
+           <div class="pos-rank">Position rank: {{ v[2] }}</div> 
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
@@ -64,7 +64,7 @@
       {% else %}   
       {% for k, v in dict.items() %}
         <script>
-        $('.qb-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: </div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
+        $('.qb-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: {{ v[2] }}</div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
         </script>
       {% endfor %}
       {% endif %}   
@@ -100,7 +100,7 @@
             </div>
           </div>
           <div class="prj-score"><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong></div>
-          <!-- <div class="pos-rank">Position rank: </div> -->
+          <div class="pos-rank">Position rank: {{ v[2] }}</div>
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
@@ -118,7 +118,7 @@
       {% else %}   
       {% for k, v in dict.items() %}
         <script>
-        $('.rb-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: </div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
+        $('.rb-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: {{ v[2] }}</div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
         </script>
       {% endfor %}
       {% endif %}   
@@ -154,7 +154,7 @@
             </div>
           </div>
           <div class="prj-score"><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong></div>
-          <!-- <div class="pos-rank">Position rank: </div> -->
+          <div class="pos-rank">Position rank: {{ v[2] }}</div>
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
@@ -172,7 +172,7 @@
       {% else %}   
       {% for k, v in dict.items() %}
         <script>
-        $('.wr-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: </div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
+        $('.wr-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: {{ v[2] }}</div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
         </script>
       {% endfor %}
       {% endif %}   
@@ -208,7 +208,7 @@
             </div>
           </div>
           <div class="prj-score"><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong></div>
-          <!-- <div class="pos-rank">Position rank: </div> -->
+          <div class="pos-rank">Position rank: {{ v[2] }}</div>
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
@@ -226,7 +226,7 @@
       {% else %}   
       {% for k, v in dict.items() %}
         <script>
-        $('.te-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: </div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
+        $('.te-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: {{ v[2] }}</div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
         </script>
       {% endfor %}
       {% endif %}   
@@ -262,7 +262,7 @@
             </div>
           </div>
           <div class="prj-score"><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong></div>
-          <!-- <div class="pos-rank">Position rank: </div> -->
+          <div class="pos-rank">Position rank: {{ v[2] }}</div>
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
@@ -280,7 +280,7 @@
       {% else %}   
       {% for k, v in dict.items() %}
         <script>
-        $('.pk-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: </div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
+        $('.pk-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: {{ v[2] }}</div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
         </script>
       {% endfor %}
       {% endif %}   
@@ -316,7 +316,7 @@
             </div>
           </div>
           <div class="prj-score"><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong></div>
-          <!-- <div class="pos-rank">Position rank: </div> -->
+          <div class="pos-rank">Position rank: {{ v[2] }}</div>
           </div> <!--/.caption-->
         </div> <!--/.thumbnail-->   
       {% endfor %}
@@ -334,7 +334,7 @@
       {% else %}   
       {% for k, v in dict.items() %}
         <script>
-        $('.d-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: </div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
+        $('.d-ul').append("<li class='media'><a href='#' class='pull-left'><img class='media-object' src={{ v[1] }}></a><div class='media-body'><h4 class='media-heading pop-results'>{{ k }}</h4><div class='progress'><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div><div class='prj-score pop-rank'><strong>Projected pts: {% if v[0] == 0 %} BYE or INJ {% else %}{{ v[0] }}{% endif %}</strong><div class='pos-rank pop-rank'>Position rank: {{ v[2] }}</div></div><div class='progress-bar' role='progressbar' aria-valuenow='{{ v[0] * 3.3}}' aria-valuemin='0' aria-valuemax='100' style='width: {{ v[0] * 3.3}}%'></div></div></li>");
         </script>
       {% endfor %}
       {% endif %}   

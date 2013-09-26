@@ -36,6 +36,19 @@ def plyr_data(cur, plyr, week):
   rows = cur.fetchall()
   return rows[0][0], rows[0][1], rows[0][2]
 
+def weekly_rank(cur, pos, id, week):
+  command = "SELECT plyr_id FROM all_predictions WHERE week = '%s' and position = '%s' ORDER BY points DESC;" % (week, pos)
+  cur.execute(command)
+  rows = cur.fetchall()
+  rankings = []
+  for r in rows:
+    rankings.append(r[0])
+  if id in rankings:
+    return rankings.index(id) + 1
+  else:
+    return 'NA'
+
+
 def calc_predictions(plyrs, week_num):
   db = connect()[0]
   cur = connect()[1]
@@ -50,9 +63,13 @@ def calc_predictions(plyrs, week_num):
     print "name: ", disp_name, "pos: ", pos, "id: ", id, "pts: ", pts
     name = disp_name.replace('-',' ').title()
     img_url = "http://s3-us-west-2.amazonaws.com/nflheadshots/%s-%s.png" % (id, img_name)
-
+    
+    rank = weekly_rank(cur, pos, id, week_num)
+    
+    
+    
     plyr_dict = {}
-    plyr_dict[name] = (round(pts,1), img_url) 
+    plyr_dict[name] = (round(pts,1), img_url, rank) 
     if pos == 'PK':
       pos = 'K'
     if pos in predictions:
