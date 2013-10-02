@@ -4,14 +4,13 @@ import MySQLdb as mdb
 import pandas as pd
 import numpy as np
 from pandas.io import sql
+for helpers import *
 
-
-#connect to MySQL
-def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
-  db.autocommit(True)
-  return db, db.cursor()
-  
+"""
+This script creates a table having a schema of game_id, plyr_id, tot_pts, and week.
+It takes in a .csv file containing the data and stores the fantasy points scored by each player in the given week.
+It's used for validation.
+"""  
 def main():
   field_names = ['plyr_id', 'tot_pts','week']
   infile = "./espn-actual2.csv"

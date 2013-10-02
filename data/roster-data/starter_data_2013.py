@@ -54,14 +54,11 @@ def main():
               data = [int(plyr_id.group(1)), plyr_id.group(2), position,1]
             else:
               data = [int(plyr_id.group(1)), plyr_id.group(2), position,0]  
-            print count, data
             players.append(data)
             count += 1
   
   starter_data = np.array(players)
-  #print "BEFORE: ", starter_data.shape[0]
   uni_starter_data = remove_duplicates(starter_data)
-  #print "AFTER: ", uni_starter_data.shape[0]
   starter_frame = pd.DataFrame(uni_starter_data, columns=['plyr_id', 'name', 'position', 'is_starter'])
   starter_frame.to_csv('starters_2013.csv')
   

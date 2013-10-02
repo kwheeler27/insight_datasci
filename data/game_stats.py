@@ -7,6 +7,10 @@ import numpy as np
 import pandas as pd
 import string
 
+"""
+This script back-calculates all of the fantasy points for each player for each game in the DB.
+It calculates the fantasy points based on standard formula for fantasy points.
+"""
 def is_stat_row(c):
   return (c == 'odd' or c == 'even')
 
@@ -41,8 +45,7 @@ def get_plyr_data(cols, cat):
   plyr_id = re.search(r'/id/(\d+)/([\w.\'-]+-[\w\']+)', href_str)
   if plyr_id:
     data.append(plyr_id.group(1))
-    data.append(plyr_id.group(2))
-    
+    data.append(plyr_id.group(2))  
   if cat == 'passing':
     pass_yds = int(cols[2].text.encode('ascii', 'ignore'))
     pass_tds = int(cols[4].text.encode('ascii', 'ignore'))

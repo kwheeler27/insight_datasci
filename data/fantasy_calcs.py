@@ -5,20 +5,18 @@ import pandas as pd
 import numpy as np
 from pandas.io import sql
 from mn_projections import *
+from helpers import *
 
-
-#connect to MySQL
-def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
-  db.autocommit(True)
-  return db, db.cursor()
-
+"""
+This script is used to calculate the fantasy points for all plyrs. 
+It gets all offensive players in the DB and then calcs their predicted points scored.
+The results are stored in a .csv file
+"""
 def get_plyr_names(cur):
   arr = []
   command = "SELECT DISTINCT(name), position FROM players;"
   cur.execute(command)
   rows = cur.fetchall()
-  
   for r in rows:
     name, pos = r[0], r[1]  
     if pos == 'WR' or pos == 'PK' or pos == 'QB' or pos == 'RB' or pos == 'TE':  
@@ -43,16 +41,11 @@ def main():
   db = connect()[0]
   cur = connect()[1]
   print "GETTING NAMES..."
-  plyr_names = get_plyr_names(cur)
-  
+  plyr_names = get_plyr_names(cur)  
   ndarr = np.empty([0,5])
-
   all_predictions = []
   for w in range(1,19):
-    print "WEEK: ", w
     my_proj = make_projections(plyr_names, w)
-    #plyr_data = [id, disp_name, pos, pts, week_num]
-    
     all_predictions += my_proj
   ndarr = np.array(all_predictions)
 

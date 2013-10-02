@@ -7,10 +7,11 @@ import MySQLdb as mdb
 from bs4 import BeautifulSoup
 import numpy as np
 import pandas as pd
+from helpers import *
 
-def is_game_row(c):
-  return c == 'oddrow' or c == 'evenrow'
-
+"""
+This script scrapes ESPN's fantasy projections for each week of the 2013 season.
+"""
 def main():
   wfile = open("espn-proj2.csv", "wb")
   field_names = ['plyr_id', 'proj_pts','week']
@@ -29,7 +30,6 @@ def main():
         if projpts == '--':
           projpts = 0
         data = [id, projpts, w]
-        print data
         writer.writerow(data)
   wfile.close()
 if __name__ == '__main__':

@@ -3,10 +3,11 @@ import re
 import time
 import csv
 from bs4 import BeautifulSoup
+from helpers import *
 
-def is_team_row(c):
-  return c == 'oddrow' or c == 'evenrow'
-
+"""
+This script scrapes all of the starters for each team.
+"""
 def main():
   wfile = open("off-rosters.csv", "wb")
   field_names = ['count', 'team','plyr_id', 'name', 'position']
@@ -33,7 +34,6 @@ def main():
           plyr_id = re.search(r'/id/(\d+)/([\w.\'-]+-[\w\']+)', href_str)
           if plyr_id:
             data = [count, team, int(plyr_id.group(1)), plyr_id.group(2), position]
-            print data
             writer.writerow(data)
             count += 1
   wfile.close()

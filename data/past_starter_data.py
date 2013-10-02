@@ -7,6 +7,9 @@ import numpy as np
 import pandas as pd
 import string
 
+"""
+This script scrapes past starter info for all players.
+"""
 def is_stat_row(c):
   return (c == 'odd' or c == 'even')
 
@@ -66,7 +69,6 @@ def get_plyr_data(cols, cat, row_num):
     else:
       data.append(0)
   return data
-
 
 def remove_duplicates(darr):
   new_arr = []

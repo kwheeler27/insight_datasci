@@ -44,3 +44,5 @@ DRY principle (don't repeat yourself) - methods
 SRP (single responsibility problems) - classes
 -don't solve many problems
 -few arguments
+
+YOUTUBE ANALYTICS NOTES
