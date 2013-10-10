@@ -4,14 +4,11 @@ import MySQLdb as mdb
 import pandas as pd
 import numpy as np
 from pandas.io import sql
+from helpers import *
 
-
-#connect to MySQL
-def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
-  db.autocommit(True)
-  return db, db.cursor()
-  
+"""
+This script stores all of the current starting players in the league.
+"""  
 def main():
   field_names = ['plyr_id', 'name', 'position', 'is_starter']
   infile = "./starters_2013.csv"

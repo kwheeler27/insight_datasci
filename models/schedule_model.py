@@ -7,17 +7,12 @@ import MySQLdb as mdb
 import pandas as pd
 import numpy as np
 from pandas.io import sql
+from helpers import *
 
-#connect to MySQL
-def connect():
-  #db = mdb.connect(host='localhost', user='root', local_infile = 1) # used if loading from local csv)
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
-  db.autocommit(True)
-  return db, db.cursor()
-  
-def is_team_row(c):
-  return c == 'oddrow' or c == 'evenrow'
-
+"""
+This script scrapes and creates a table containing the schedules for each player for the season.
+The columns are: player ID, home team, away team, and week number.
+"""
 def write_sched_csv():
   wfile = open("schedules.csv", "wb")
   field_names = ['id', 'home','away', 'week']
@@ -48,7 +43,6 @@ def write_sched_csv():
   
 def main():
   #write_sched_csv()
-  
   infile = "./schedules.csv"
   db = connect()[0]
   cur = connect()[1]

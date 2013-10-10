@@ -4,14 +4,11 @@ import MySQLdb as mdb
 import pandas as pd
 import numpy as np
 from pandas.io import sql
-
-
-#connect to MySQL
-def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
-  db.autocommit(True)
-  return db, db.cursor()
-  
+from helpers import *
+ 
+"""
+This script loads and stores coaching data into MySQL db.
+"""  
 def main():
   field_names = ['game_id','coach_id', 'team', 'is_home', 'year']
   infile = "./coach_data.csv"

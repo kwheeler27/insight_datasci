@@ -4,6 +4,9 @@ import pandas as pd
 import numpy as np
 from pandas.io import sql
 
+"""
+This script creates a players table with each player's ID, name, position, and team
+"""
 
 #Create DB
 def create_db(cur):
@@ -13,9 +16,6 @@ def create_db(cur):
 
 #create players table
 def create_players_tbl(cur):
-  ########################
-  # Create customers table
-  ########################
   sql = """CREATE TABLE players
   (
     plyr_id       int       NOT NULL ,
@@ -49,11 +49,8 @@ def main():
   cur.execute("USE fantasy_lineups;")
   df = pd.read_csv(infile)
   sql.write_frame(df, con=db, name='players', if_exists='replace', flavor='mysql')
-   
   cur.close()
-  del cur
   db.close()
-  del db  
   
 if __name__ == '__main__':
   main()

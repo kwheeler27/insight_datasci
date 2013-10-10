@@ -1,15 +1,17 @@
 import MySQLdb as mdb
 
 
-#connect to MySQL
+#connects to the MySQL db
 def connect():
   db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
   db.autocommit(True)
   return db, db.cursor()
-  
+
+#used in conjunction with Beautiful Soup to check if an HTML row contained desired stats  
 def is_game_row(c):
   return c == 'oddrow' or c == 'evenrow'
-  
+
+#returns a dict containing team-coach key-value pairs. The coaches for a given year are represented by their id's and position ont he value array 
 def get_coach_dict():
   coach_dict = {}
   coach_dict['buf'] = [80,81,81,81,105]

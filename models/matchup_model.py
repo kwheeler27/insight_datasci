@@ -4,16 +4,10 @@ import MySQLdb as mdb
 import pandas as pd
 import numpy as np
 from pandas.io import sql
+from helpers import *
 
-#connect to MySQL
-def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
-  db.autocommit(True)
-  return db, db.cursor()
 
-  
-def main():
-  
+def main():  
   infile = "./games-data2.csv"
   db = connect()[0]
   cur = connect()[1]

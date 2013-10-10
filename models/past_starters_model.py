@@ -1,17 +1,14 @@
 import csv
-import sys
 import MySQLdb as mdb
 import pandas as pd
 import numpy as np
 from pandas.io import sql
-
-
-#connect to MySQL
-def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
-  db.autocommit(True)
-  return db, db.cursor()
+from helpers import *
   
+"""
+This script creates a table containing information about past starters. 
+It contains the game IDs, player IDs, player name, and if that player was a starter.
+"""  
 def main():
   field_names = ['game_id','plyr_id','name','is_starter']
   infile = "./past_starter_data.csv"
@@ -22,9 +19,7 @@ def main():
   sql.write_frame(df, con=db, name='past_starters', if_exists='replace', flavor='mysql')
    
   cur.close()
-  del cur
   db.close()
-  del db  
   
 if __name__ == '__main__':
   main()

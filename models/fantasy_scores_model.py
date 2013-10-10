@@ -4,23 +4,18 @@ import MySQLdb as mdb
 import pandas as pd
 import numpy as np
 from pandas.io import sql
+from helpers import *
 
-#connect to MySQL
-def connect():
-  db = mdb.connect(host='localhost', db='fantasy_lineups', user='root', passwd='r')
-  db.autocommit(True)
-  return db, db.cursor()
-
-  
+"""
+This script creates a table in my MySQL db containing data on each player's fantasy scores
+""" 
 def main():
-  
   infile = "./fantasy_scores.csv"
   db = connect()[0]
   cur = connect()[1]
   cur.execute("USE fantasy_lineups;")
   df = pd.read_csv(infile)
   sql.write_frame(df, con=db, name='fantasy_scores', if_exists='replace', flavor='mysql')
-   
   cur.close()
   db.close()
   
